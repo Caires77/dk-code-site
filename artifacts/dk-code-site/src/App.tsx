@@ -30,17 +30,15 @@ import {
 } from 'lucide-react';
 import { type ReactNode } from 'react';
 import './index.css';
+import logoMark from './assets/dk-code-mark.png';
+import logoFull from './assets/dk-code-logo.png';
 
 const whatsappNumber = '5511963079086';
 const whatsappHref = (message: string) =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-const logoMark = '/dk-code-mark.png';
-const logoFull = '/dk-code-logo.png';
-
 const navItems = [
   ['Início', '#inicio'],
   ['Serviços', '#servicos'],
-  ['Portfólio', '#portfolio'],
   ['Parceiros', '#parceiros'],
   ['Processo', '#processo'],
   ['Sobre', '#sobre'],
@@ -104,9 +102,9 @@ function TechnologyPlanet() {
       const cy = height * 0.5 + pointer.current.y * height * 0.04;
       const radius = Math.min(width, height) * 0.31;
       const atmosphere = context.createRadialGradient(cx - radius * .32, cy - radius * .4, radius * .1, cx, cy, radius * 1.23);
-      atmosphere.addColorStop(0, 'rgba(255,224,125,.42)');
-      atmosphere.addColorStop(.34, 'rgba(212,175,55,.2)');
-      atmosphere.addColorStop(.7, 'rgba(12,10,8,.38)');
+      atmosphere.addColorStop(0, 'rgba(255,224,125,.7)');
+      atmosphere.addColorStop(.34, 'rgba(212,175,55,.38)');
+      atmosphere.addColorStop(.7, 'rgba(12,10,8,.22)');
       atmosphere.addColorStop(1, 'rgba(16,14,11,0)');
       context.beginPath();
       context.arc(cx, cy, radius * 1.18, 0, Math.PI * 2);
@@ -118,10 +116,10 @@ function TechnologyPlanet() {
       context.arc(cx, cy, radius, 0, Math.PI * 2);
       context.clip();
       const sphere = context.createRadialGradient(cx - radius * .4, cy - radius * .5, radius * .08, cx + radius * .08, cy + radius * .1, radius * 1.05);
-      sphere.addColorStop(0, 'rgba(255,229,143,.72)');
-      sphere.addColorStop(.2, 'rgba(175,130,35,.68)');
-      sphere.addColorStop(.63, 'rgba(38,27,13,.9)');
-      sphere.addColorStop(1, 'rgba(7,8,7,.98)');
+      sphere.addColorStop(0, 'rgba(255,235,165,.94)');
+      sphere.addColorStop(.2, 'rgba(212,175,55,.84)');
+      sphere.addColorStop(.63, 'rgba(63,43,17,.9)');
+      sphere.addColorStop(1, 'rgba(13,11,8,.96)');
       context.fillStyle = sphere;
       context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
 
@@ -255,17 +253,6 @@ const services = [
   { icon: Blocks, number: '03', title: 'Sistemas', body: 'Sistemas personalizados para automatizar processos e aumentar a produtividade.' },
 ];
 
-const projects = [
-  ['Barbearia Premium', 'Landing page elegante para agendamentos e apresentação de serviços.', 'barber'],
-  ['Clínica de Estética', 'Site sofisticado com tons claros e agendamento online.', 'clinic'],
-  ['Imobiliária', 'Portal moderno com busca de imóveis e integração com CRM.', 'realestate'],
-  ['Academia', 'Design esportivo com planos, aulas e captação de alunos.', 'gym'],
-  ['Restaurante', 'Cardápio digital elegante e reservas online.', 'restaurant'],
-  ['Escritório de Advocacia', 'Site corporativo com áreas de atuação e contato direto.', 'law'],
-  ['Clínica Odontológica', 'Interface moderna com apresentação de tratamentos.', 'dental'],
-  ['Loja de Roupas', 'E-commerce premium com catálogo e checkout.', 'fashion'],
-];
-
 const process = [
   ['01', 'Briefing', 'Entendemos seu negócio, objetivos e público-alvo.'],
   ['02', 'Planejamento', 'Arquitetura de informação, escopo e cronograma.'],
@@ -345,7 +332,7 @@ function App() {
               <p className="mt-4 max-w-md text-sm leading-6 text-[#847c72]">Criamos Sites, Landing Pages e Sistemas personalizados para empresas que desejam crescer na internet.</p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="gold-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-budget">Solicitar orçamento <ArrowRight size={15} /></a>
-                <a href="#portfolio" className="ghost-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-projects">Ver projetos <ArrowDown size={15} /></a>
+                <a href="#servicos" className="ghost-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-services">Conhecer serviços <ArrowDown size={15} /></a>
               </div>
               <div className="mt-12 flex items-center gap-3 text-[10px] uppercase tracking-[.16em] text-[#6f685e]"><span className="h-px w-10 bg-[#8c6a1d]" /> Design + tecnologia + precisão</div>
             </div>
@@ -381,15 +368,6 @@ function App() {
                 <h3 className="display mt-16 text-3xl font-semibold text-[#f3efe6]">{title}</h3><p className="mt-4 min-h-[72px] text-sm leading-6 text-[#a8a096]">{body}</p>
                 <a href={whatsappHref(`Olá, gostaria de saber mais sobre ${title}.`)} target="_blank" rel="noreferrer" className="project-link mt-8" data-testid={`link-service-${number}`}>Saiba mais <ArrowRight size={14} /></a>
               </article>)}
-            </div>
-          </div>
-        </section>
-
-        <section id="portfolio" className="section-ink py-24 md:py-32">
-          <div className="container-wide">
-            <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Portfólio" title="Projetos que geram resultado">Uma seleção dos nossos trabalhos recentes.</SectionHeading><span className="hidden font-mono text-[10px] uppercase tracking-[.16em] text-[#6f685e] md:block">Seleção / sob medida</span></div>
-            <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {projects.map(([title, body, art], index) => <article className={`project-card reveal delay-${(index % 3) + 1} ${index === 0 || index === 3 ? 'lg:col-span-2' : ''}`} key={title} data-testid={`card-project-${index}`}><div className={`project-art art-${art}`} /><div className="project-label"><h3 className="display text-2xl font-semibold text-[#f3efe6]">{title}</h3><p className="mt-2 max-w-sm text-xs leading-5 text-[#d5cbbd]">{body}</p><a href={whatsappHref(`Olá, gostaria de conhecer o projeto ${title}.`)} target="_blank" rel="noreferrer" className="project-link mt-5" data-testid={`link-project-${index}`}>Ver Projeto <MoveUpRight size={14} /></a></div></article>)}
             </div>
           </div>
         </section>
@@ -472,7 +450,7 @@ function App() {
       <footer className="border-t border-[#d4af37]/18 bg-[#100e0b] py-12">
         <div className="container-wide grid gap-12 md:grid-cols-[1.4fr_.7fr_.8fr]">
           <div><a href="#inicio" className="inline-flex" data-testid="link-footer-logo"><img src={logoFull} alt="DK CODE" className="footer-logo" /></a><p className="mt-6 max-w-xs text-sm leading-6 text-[#847c72]">Desenvolvimento web premium. Sites, Landing Pages e Sistemas sob medida.</p><div className="mt-7 flex gap-3"><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-instagram"><Instagram size={17} /></a><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-linkedin"><Linkedin size={17} /></a></div></div>
-          <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Navegação</p><div className="mt-5 grid gap-3">{[['Início', '#inicio'], ['Serviços', '#servicos'], ['Portfólio', '#portfolio'], ['Contato', '#contato']].map(([label, href]) => <a href={href} key={href} className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid={`link-footer-${label.toLowerCase()}`}>{label}</a>)}</div></div>
+          <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Navegação</p><div className="mt-5 grid gap-3">{[['Início', '#inicio'], ['Serviços', '#servicos'], ['Contato', '#contato']].map(([label, href]) => <a href={href} key={href} className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid={`link-footer-${label.toLowerCase()}`}>{label}</a>)}</div></div>
           <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Contato</p><div className="mt-5 grid gap-3"><a href="mailto:contato@dkcode.com.br" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-email">contato@dkcode.com.br</a><a href={whatsappHref('Olá, gostaria de falar com a DK CODE.')} target="_blank" rel="noreferrer" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-whatsapp">WhatsApp</a></div></div>
         </div>
         <div className="container-wide mt-12 flex flex-col justify-between gap-3 border-t border-[#d4af37]/15 pt-6 text-[10px] uppercase tracking-[.13em] text-[#6f685e] md:flex-row"><span>© 2026 DK CODE. Todos os direitos reservados.</span><span>Feito com precisão em preto e ouro.</span></div>

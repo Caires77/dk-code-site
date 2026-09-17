@@ -95,9 +95,9 @@
 .ghost-button { display: inline-flex; align-items: center; justify-content: center; gap: 11px; border: 1px solid rgba(243,239,230,.23); color: #f3efe6; transition: border-color .25s ease, color .25s ease, background .25s ease, transform .25s ease; }
 .ghost-button:hover { border-color: #d4af37; color: #fff0a6; background: rgba(212,175,55,.06); transform: translateY(-2px); }
 .hero-grid { background-image: linear-gradient(rgba(212,175,55,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,.055) 1px, transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(to bottom, black 0%, transparent 78%); }
-.hero-vignette { background: radial-gradient(circle at 78% 42%, rgba(184,134,11,.18), transparent 30%), radial-gradient(circle at 15% 25%, rgba(243,239,230,.025), transparent 20%), linear-gradient(180deg, #0c0a08 0%, #100e0b 78%, #17130f 100%); }
+.hero-vignette { background: radial-gradient(circle at 78% 42%, rgba(184,134,11,.3), transparent 34%), radial-gradient(circle at 15% 25%, rgba(243,239,230,.025), transparent 20%), linear-gradient(180deg, #0c0a08 0%, #100e0b 78%, #17130f 100%); }
 .planet-wrap { position: relative; width: min(48vw, 590px); aspect-ratio: 1; }
-.planet-wrap::before { content: ''; position: absolute; inset: 8%; border-radius: 999px; background: radial-gradient(circle, rgba(212,175,55,.08), transparent 58%); filter: blur(18px); }
+.planet-wrap::before { content: ''; position: absolute; inset: 4%; border-radius: 999px; background: radial-gradient(circle, rgba(212,175,55,.2), transparent 62%); filter: blur(16px); }
 .planet-canvas { position: relative; width: 100%; height: 100%; display: block; }
 .orbit { position: absolute; inset: 12%; border: 1px solid rgba(212,175,55,.3); border-radius: 50%; transform: rotate(-21deg) skewX(-12deg); pointer-events: none; }
 .orbit::after { content: ''; position: absolute; width: 8px; height: 8px; top: 8%; right: 13%; border-radius: 99px; background: #fff0a6; box-shadow: 0 0 18px 4px rgba(212,175,55,.45); }
@@ -156,7 +156,8 @@
   .hero-title { font-size: clamp(2.55rem, 11vw, 3.9rem) !important; line-height: .92; }
   .header-logo-mark { width: 40px; height: 40px; }
   .footer-logo { width: 134px; height: 74px; }
-  .planet-wrap { width: min(96vw, 460px); margin-inline: auto; }
+  .planet-wrap { width: min(96vw, 460px); margin: -2rem auto 0; }
+  .planet-canvas { filter: brightness(1.45) saturate(1.18); }
   .hero-grid { background-size: 46px 46px; }
   .timeline-line { left: 20px; top: 0; bottom: 0; width: 1px; height: auto; right: auto; background: linear-gradient(180deg, #6f5015, #fff0a6, #6f5015); }
   .timeline-dot { box-shadow: 0 0 0 7px #17130f; }
