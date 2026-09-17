@@ -1,0 +1,6 @@
+{
+  "framework": "vite",
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "buildCommand": "pnpm --filter @workspace/dk-code-site run build",
+  "outputDirectory": "artifacts/dk-code-site/dist/public"
+}
