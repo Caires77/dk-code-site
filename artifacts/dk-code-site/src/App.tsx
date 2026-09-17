@@ -64,163 +64,156 @@ function TechnologyPlanet() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const context = canvas.getContext('2d');
-    if (!context) return;
+    const context = canvas?.getContext('2d');
+    if (!canvas || !context) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const particles = Array.from({ length: 30 }, (_, index) => ({
-      angle: (index / 30) * Math.PI * 2,
-      radius: 0.7 + ((index * 19) % 34) / 100,
-      speed: 0.00016 + ((index * 11) % 5) * 0.000035,
-      size: 1 + (index % 3) * 0.7,
-    }));
-    const pulses = Array.from({ length: 6 }, (_, index) => ({
-      angle: (index / 6) * Math.PI * 2 + 0.25,
-      phase: index * 1.42,
-    }));
-    let animationFrame = 0;
-    let rotation = 0;
     let width = 0;
     let height = 0;
     let dpr = 1;
+    let frame = 0;
+    let rotation = 0;
+    let lastTime = 0;
+    const seed = Array.from({ length: 180 }, (_, index) => ({
+      x: Math.sin(index * 17.31) * 0.82,
+      y: Math.cos(index * 11.77) * 0.76,
+      size: 0.018 + (Math.sin(index * 4.2) + 1) * 0.018,
+      alpha: 0.16 + (index % 5) * 0.045,
+    }));
 
     const resize = () => {
       const box = canvas.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = box.width;
       height = box.height;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    const render = (time: number) => {
+    const draw = (time: number) => {
       if (!width || !height) resize();
+      const delta = lastTime ? Math.min(34, time - lastTime) : 16;
+      lastTime = time;
       context.clearRect(0, 0, width, height);
-      const cx = width * 0.5 + pointer.current.x * width * 0.045;
-      const cy = height * 0.5 + pointer.current.y * height * 0.035;
-      const radius = Math.min(width, height) * 0.315;
+      const cx = width * .5 + pointer.current.x * width * .045;
+      const cy = height * .5 + pointer.current.y * height * .035;
+      const radius = Math.min(width, height) * .315;
+      const lightX = cx - radius * .42;
+      const lightY = cy - radius * .52;
 
-      const glow = context.createRadialGradient(cx, cy, radius * 0.12, cx, cy, radius * 1.55);
-      glow.addColorStop(0, 'rgba(255,246,190,.46)');
-      glow.addColorStop(.24, 'rgba(244,198,77,.28)');
-      glow.addColorStop(.62, 'rgba(184,134,11,.12)');
-      glow.addColorStop(1, 'rgba(184,134,11,0)');
-      context.fillStyle = glow;
+      const atmosphere = context.createRadialGradient(cx, cy, radius * .55, cx, cy, radius * 1.52);
+      atmosphere.addColorStop(0, 'rgba(255,232,117,.25)');
+      atmosphere.addColorStop(.46, 'rgba(212,175,55,.18)');
+      atmosphere.addColorStop(.78, 'rgba(184,134,11,.08)');
+      atmosphere.addColorStop(1, 'rgba(184,134,11,0)');
+      context.fillStyle = atmosphere;
       context.beginPath();
-      context.arc(cx, cy, radius * 1.55, 0, Math.PI * 2);
+      context.arc(cx, cy, radius * 1.52, 0, Math.PI * 2);
       context.fill();
 
       context.save();
       context.beginPath();
       context.arc(cx, cy, radius, 0, Math.PI * 2);
       context.clip();
-      const sphere = context.createRadialGradient(cx - radius * .38, cy - radius * .5, radius * .06, cx + radius * .08, cy + radius * .14, radius * 1.14);
-      sphere.addColorStop(0, '#fff8d5');
-      sphere.addColorStop(.14, '#ffe89a');
-      sphere.addColorStop(.36, '#e1ad35');
-      sphere.addColorStop(.68, '#a66f10');
-      sphere.addColorStop(.9, '#694108');
-      sphere.addColorStop(1, '#301c07');
+      const sphere = context.createRadialGradient(lightX, lightY, radius * .04, cx + radius * .2, cy + radius * .12, radius * 1.18);
+      sphere.addColorStop(0, '#fff6b3');
+      sphere.addColorStop(.16, '#f4d86a');
+      sphere.addColorStop(.38, '#d5a92f');
+      sphere.addColorStop(.64, '#a66e0e');
+      sphere.addColorStop(.84, '#684006');
+      sphere.addColorStop(1, '#211204');
       context.fillStyle = sphere;
       context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
 
-      const highlight = context.createRadialGradient(cx - radius * .36, cy - radius * .42, 0, cx - radius * .36, cy - radius * .42, radius * .52);
-      highlight.addColorStop(0, 'rgba(255,255,231,.8)');
-      highlight.addColorStop(.3, 'rgba(255,238,157,.3)');
-      highlight.addColorStop(1, 'rgba(255,238,157,0)');
-      context.fillStyle = highlight;
+      seed.forEach((spot, index) => {
+        const longitude = spot.x + rotation * .22;
+        const latitude = spot.y;
+        const projectedX = cx + Math.sin(longitude) * Math.cos(latitude) * radius;
+        const projectedY = cy - Math.sin(latitude) * radius;
+        const depth = Math.cos(longitude) * Math.cos(latitude);
+        if (depth < -.08) return;
+        const scale = Math.max(.18, Math.sqrt(Math.max(0, 1 - Math.sin(longitude) ** 2 * Math.cos(latitude) ** 2)));
+        context.globalAlpha = spot.alpha * Math.min(1, depth + .4);
+        context.fillStyle = index % 4 === 0 ? '#fff0a2' : index % 3 === 0 ? '#81510a' : '#b77d13';
+        context.beginPath();
+        context.ellipse(projectedX, projectedY, radius * spot.size * scale * 2.3, radius * spot.size * scale, longitude * .35, 0, Math.PI * 2);
+        context.fill();
+      });
+      context.globalAlpha = 1;
+
+      const longitudeLines = 8;
+      context.lineWidth = Math.max(0.65, radius * .004);
+      for (let index = 0; index < longitudeLines; index += 1) {
+        const longitude = ((index / longitudeLines) * Math.PI * 2) + rotation * .4;
+        context.strokeStyle = 'rgba(255,235,143,.16)';
+        context.beginPath();
+        context.ellipse(cx, cy, Math.abs(Math.sin(longitude)) * radius, radius, 0, 0, Math.PI * 2);
+        context.stroke();
+      }
+      for (let index = -2; index <= 2; index += 1) {
+        const latitude = index * .25;
+        context.strokeStyle = 'rgba(255,239,157,.14)';
+        context.beginPath();
+        context.ellipse(cx, cy - Math.sin(latitude) * radius, Math.cos(latitude) * radius, radius * .12, 0, 0, Math.PI * 2);
+        context.stroke();
+      }
+
+      const brandScale = Math.max(.7, Math.min(1.15, radius / 170));
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      context.font = `700 ${Math.round(24 * brandScale)}px var(--font-display)`;
+      context.shadowColor = 'rgba(60,30,0,.75)';
+      context.shadowBlur = 8;
+      context.fillStyle = 'rgba(255,249,194,.92)';
+      context.fillText('DK CODE', cx + Math.sin(rotation) * radius * .08, cy + radius * .04);
+      context.shadowBlur = 0;
+      context.font = `500 ${Math.round(7 * brandScale)}px var(--app-font-mono)`;
+      context.letterSpacing = '3px';
+      context.fillStyle = 'rgba(74,42,3,.9)';
+      context.fillText('DIGITAL SYSTEMS', cx + Math.sin(rotation) * radius * .08, cy + radius * .16);
+
+      const specular = context.createRadialGradient(lightX, lightY, 0, lightX, lightY, radius * .46);
+      specular.addColorStop(0, 'rgba(255,255,218,.75)');
+      specular.addColorStop(.18, 'rgba(255,242,160,.25)');
+      specular.addColorStop(1, 'rgba(255,242,160,0)');
+      context.fillStyle = specular;
       context.beginPath();
       context.arc(cx, cy, radius, 0, Math.PI * 2);
       context.fill();
 
-      context.lineWidth = Math.max(1, radius * .008);
-      for (let latitude = -3; latitude <= 3; latitude += 1) {
-        const y = cy + latitude * radius * .2;
-        const widthLine = Math.sqrt(Math.max(0, radius * radius - (y - cy) ** 2));
-        context.strokeStyle = latitude === 0 ? 'rgba(255,248,198,.82)' : 'rgba(255,232,142,.48)';
-        context.beginPath();
-        context.ellipse(cx, y, widthLine, Math.max(5, radius * (.1 - Math.abs(latitude) * .012)), 0, 0, Math.PI * 2);
-        context.stroke();
-      }
-      for (let longitude = -4; longitude <= 4; longitude += 1) {
-        const x = cx + longitude * radius * .21 + Math.sin(rotation * .45) * radius * .07;
-        const heightLine = Math.sqrt(Math.max(0, radius * radius - (x - cx) ** 2));
-        context.strokeStyle = longitude === 0 ? 'rgba(255,248,198,.75)' : 'rgba(255,232,142,.4)';
-        context.beginPath();
-        context.ellipse(x, cy, Math.max(5, radius * (.12 - Math.abs(longitude) * .012)), heightLine, 0, 0, Math.PI * 2);
-        context.stroke();
-      }
+      const terminator = context.createLinearGradient(cx - radius, cy, cx + radius, cy);
+      terminator.addColorStop(0, 'rgba(0,0,0,0)');
+      terminator.addColorStop(.62, 'rgba(24,12,0,0)');
+      terminator.addColorStop(1, 'rgba(18,8,0,.58)');
+      context.fillStyle = terminator;
+      context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
       context.restore();
 
-      context.strokeStyle = 'rgba(255,245,181,.9)';
-      context.lineWidth = Math.max(1.4, radius * .012);
+      context.strokeStyle = 'rgba(255,239,147,.82)';
+      context.lineWidth = Math.max(1.3, radius * .009);
       context.beginPath();
-      context.arc(cx, cy, radius, -2.72, -.65);
+      context.arc(cx, cy, radius * 1.008, -2.55, -.62);
       context.stroke();
-      context.strokeStyle = 'rgba(255,217,92,.65)';
-      context.lineWidth = Math.max(1, radius * .007);
-      context.beginPath();
-      context.arc(cx, cy, radius * 1.04, .25, 2.2);
-      context.stroke();
-
-      const core = context.createRadialGradient(cx - radius * .1, cy - radius * .12, 0, cx, cy, radius * .28);
-      core.addColorStop(0, 'rgba(255,255,220,.95)');
-      core.addColorStop(.24, 'rgba(255,233,132,.82)');
-      core.addColorStop(1, 'rgba(212,175,55,0)');
-      context.fillStyle = core;
-      context.beginPath();
-      context.arc(cx, cy, radius * .34, 0, Math.PI * 2);
-      context.fill();
-
-      context.save();
-      context.globalCompositeOperation = 'lighter';
-      particles.forEach((particle, index) => {
-        const orbitAngle = particle.angle + time * particle.speed + rotation * .18;
-        const px = cx + Math.cos(orbitAngle) * radius * (1.08 + particle.radius * .17);
-        const py = cy + Math.sin(orbitAngle) * radius * (.62 + particle.radius * .12);
-        context.globalAlpha = .34 + (index % 4) * .12;
-        context.fillStyle = index % 3 === 0 ? '#fff5bd' : '#e7bd4f';
-        context.beginPath();
-        context.arc(px, py, particle.size, 0, Math.PI * 2);
-        context.fill();
-      });
-      pulses.forEach((pulse, index) => {
-        const intensity = (Math.sin(time * .002 + pulse.phase) + 1) / 2;
-        const angle = pulse.angle + rotation * (index % 2 ? -.12 : .16);
-        const px = cx + Math.cos(angle) * radius * 1.02;
-        const py = cy + Math.sin(angle) * radius * .62;
-        context.globalAlpha = .4 + intensity * .5;
-        context.strokeStyle = index % 2 ? '#fff4b1' : '#d4af37';
-        context.lineWidth = 1.2 + intensity;
-        context.beginPath();
-        context.arc(px, py, 5 + intensity * 7, 0, Math.PI * 2);
-        context.stroke();
-      });
-      context.restore();
 
       if (!reduced) {
-        rotation += 0.003;
-        animationFrame = requestAnimationFrame(render);
+        rotation += delta * .00042;
+        frame = requestAnimationFrame(draw);
       }
     };
 
     const onPointerMove = (event: PointerEvent) => {
       if (event.pointerType === 'touch') return;
       const box = canvas.getBoundingClientRect();
-      pointer.current = {
-        x: (event.clientX - box.left - box.width / 2) / box.width,
-        y: (event.clientY - box.top - box.height / 2) / box.height,
-      };
+      pointer.current = { x: (event.clientX - box.left - box.width / 2) / box.width, y: (event.clientY - box.top - box.height / 2) / box.height };
     };
     const resetPointer = () => { pointer.current = { x: 0, y: 0 }; };
     resize();
     canvas.addEventListener('pointermove', onPointerMove);
     canvas.addEventListener('pointerleave', resetPointer);
     window.addEventListener('resize', resize);
-    render(0);
+    draw(0);
     return () => {
-      cancelAnimationFrame(animationFrame);
+      cancelAnimationFrame(frame);
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerleave', resetPointer);
       window.removeEventListener('resize', resize);
@@ -228,7 +221,7 @@ function TechnologyPlanet() {
   }, []);
 
   return (
-    <div className="planet-wrap" aria-label="Planeta tecnológico animado" role="img">
+    <div className="planet-wrap realistic-planet" aria-label="Planeta dourado DK CODE em rotação" role="img">
       <div className="orbit" />
       <div className="orbit orbit-two" />
       <div className="planet-halo" aria-hidden="true" />
