@@ -77,6 +77,11 @@ function TechnologyPlanet() {
       speed: 0.00012 + ((index * 13) % 5) * 0.000025,
       size: 0.7 + (index % 3) * 0.55,
     }));
+    const bursts = Array.from({ length: 7 }, (_, index) => ({
+      angle: (index / 7) * Math.PI * 2 + 0.35,
+      orbit: 0.18 + (index % 3) * 0.19,
+      phase: index * 1.73,
+    }));
     let animationFrame = 0;
     let rotation = 0;
     let width = 0;
@@ -95,13 +100,13 @@ function TechnologyPlanet() {
     const render = (time: number) => {
       if (!width || !height) resize();
       context.clearRect(0, 0, width, height);
-      const cx = width * 0.5 + pointer.current.x * width * 0.025;
-      const cy = height * 0.5 + pointer.current.y * height * 0.018;
+      const cx = width * 0.5 + pointer.current.x * width * 0.055;
+      const cy = height * 0.5 + pointer.current.y * height * 0.04;
       const radius = Math.min(width, height) * 0.31;
       const atmosphere = context.createRadialGradient(cx - radius * .32, cy - radius * .4, radius * .1, cx, cy, radius * 1.23);
-      atmosphere.addColorStop(0, '#3c3021');
-      atmosphere.addColorStop(.53, '#15120f');
-      atmosphere.addColorStop(.83, '#0b0b0a');
+      atmosphere.addColorStop(0, 'rgba(255,224,125,.42)');
+      atmosphere.addColorStop(.34, 'rgba(212,175,55,.2)');
+      atmosphere.addColorStop(.7, 'rgba(12,10,8,.38)');
       atmosphere.addColorStop(1, 'rgba(16,14,11,0)');
       context.beginPath();
       context.arc(cx, cy, radius * 1.18, 0, Math.PI * 2);
@@ -113,10 +118,10 @@ function TechnologyPlanet() {
       context.arc(cx, cy, radius, 0, Math.PI * 2);
       context.clip();
       const sphere = context.createRadialGradient(cx - radius * .4, cy - radius * .5, radius * .08, cx + radius * .08, cy + radius * .1, radius * 1.05);
-      sphere.addColorStop(0, '#5c4a2d');
-      sphere.addColorStop(.2, '#292219');
-      sphere.addColorStop(.63, '#12100e');
-      sphere.addColorStop(1, '#070807');
+      sphere.addColorStop(0, 'rgba(255,229,143,.72)');
+      sphere.addColorStop(.2, 'rgba(175,130,35,.68)');
+      sphere.addColorStop(.63, 'rgba(38,27,13,.9)');
+      sphere.addColorStop(1, 'rgba(7,8,7,.98)');
       context.fillStyle = sphere;
       context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
 
@@ -159,6 +164,27 @@ function TechnologyPlanet() {
         context.fillStyle = index % 4 === 0 ? '#fff0a6' : '#d4af37';
         context.beginPath();
         context.arc(px, py, particle.size, 0, Math.PI * 2);
+        context.fill();
+      });
+      bursts.forEach((burst, index) => {
+        const pulse = (Math.sin(time * 0.0022 + burst.phase) + 1) / 2;
+        const burstAngle = burst.angle + rotation * (index % 2 ? -0.18 : 0.24);
+        const bx = cx + Math.cos(burstAngle) * radius * burst.orbit;
+        const by = cy + Math.sin(burstAngle) * radius * burst.orbit * .72;
+        const reach = radius * (.045 + pulse * .085);
+        context.globalAlpha = .16 + pulse * .45;
+        context.strokeStyle = index % 2 ? '#fff0a6' : '#d4af37';
+        context.lineWidth = 1 + pulse;
+        for (let ray = 0; ray < 8; ray += 1) {
+          const rayAngle = ray * Math.PI / 4 + burst.phase;
+          context.beginPath();
+          context.moveTo(bx + Math.cos(rayAngle) * radius * .012, by + Math.sin(rayAngle) * radius * .012);
+          context.lineTo(bx + Math.cos(rayAngle) * reach, by + Math.sin(rayAngle) * reach);
+          context.stroke();
+        }
+        context.fillStyle = '#fff0a6';
+        context.beginPath();
+        context.arc(bx, by, 1.5 + pulse * 2.5, 0, Math.PI * 2);
         context.fill();
       });
       context.globalAlpha = .35;
