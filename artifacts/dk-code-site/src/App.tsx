@@ -11,7 +11,6 @@ import {
   Globe2,
   Instagram,
   Layers3,
-  Linkedin,
   Mail,
   Menu,
   MessageCircle,
@@ -69,16 +68,15 @@ function TechnologyPlanet() {
     const context = canvas.getContext('2d');
     if (!context) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const particles = Array.from({ length: 34 }, (_, index) => ({
-      angle: (index / 34) * Math.PI * 2,
-      radius: 0.45 + ((index * 17) % 46) / 100,
-      speed: 0.00012 + ((index * 13) % 5) * 0.000025,
-      size: 0.7 + (index % 3) * 0.55,
+    const particles = Array.from({ length: 30 }, (_, index) => ({
+      angle: (index / 30) * Math.PI * 2,
+      radius: 0.7 + ((index * 19) % 34) / 100,
+      speed: 0.00016 + ((index * 11) % 5) * 0.000035,
+      size: 1 + (index % 3) * 0.7,
     }));
-    const bursts = Array.from({ length: 7 }, (_, index) => ({
-      angle: (index / 7) * Math.PI * 2 + 0.35,
-      orbit: 0.18 + (index % 3) * 0.19,
-      phase: index * 1.73,
+    const pulses = Array.from({ length: 6 }, (_, index) => ({
+      angle: (index / 6) * Math.PI * 2 + 0.25,
+      phase: index * 1.42,
     }));
     let animationFrame = 0;
     let rotation = 0;
@@ -95,113 +93,118 @@ function TechnologyPlanet() {
       canvas.height = height * dpr;
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
+
     const render = (time: number) => {
       if (!width || !height) resize();
       context.clearRect(0, 0, width, height);
-      const cx = width * 0.5 + pointer.current.x * width * 0.055;
-      const cy = height * 0.5 + pointer.current.y * height * 0.04;
-      const radius = Math.min(width, height) * 0.31;
-      const atmosphere = context.createRadialGradient(cx - radius * .32, cy - radius * .4, radius * .1, cx, cy, radius * 1.23);
-      atmosphere.addColorStop(0, 'rgba(255,224,125,.7)');
-      atmosphere.addColorStop(.34, 'rgba(212,175,55,.38)');
-      atmosphere.addColorStop(.7, 'rgba(12,10,8,.22)');
-      atmosphere.addColorStop(1, 'rgba(16,14,11,0)');
+      const cx = width * 0.5 + pointer.current.x * width * 0.045;
+      const cy = height * 0.5 + pointer.current.y * height * 0.035;
+      const radius = Math.min(width, height) * 0.315;
+
+      const glow = context.createRadialGradient(cx, cy, radius * 0.12, cx, cy, radius * 1.55);
+      glow.addColorStop(0, 'rgba(255,246,190,.46)');
+      glow.addColorStop(.24, 'rgba(244,198,77,.28)');
+      glow.addColorStop(.62, 'rgba(184,134,11,.12)');
+      glow.addColorStop(1, 'rgba(184,134,11,0)');
+      context.fillStyle = glow;
       context.beginPath();
-      context.arc(cx, cy, radius * 1.18, 0, Math.PI * 2);
-      context.fillStyle = atmosphere;
+      context.arc(cx, cy, radius * 1.55, 0, Math.PI * 2);
       context.fill();
 
       context.save();
       context.beginPath();
       context.arc(cx, cy, radius, 0, Math.PI * 2);
       context.clip();
-      const sphere = context.createRadialGradient(cx - radius * .4, cy - radius * .5, radius * .08, cx + radius * .08, cy + radius * .1, radius * 1.05);
-      sphere.addColorStop(0, 'rgba(255,235,165,.94)');
-      sphere.addColorStop(.2, 'rgba(212,175,55,.84)');
-      sphere.addColorStop(.63, 'rgba(63,43,17,.9)');
-      sphere.addColorStop(1, 'rgba(13,11,8,.96)');
+      const sphere = context.createRadialGradient(cx - radius * .38, cy - radius * .5, radius * .06, cx + radius * .08, cy + radius * .14, radius * 1.14);
+      sphere.addColorStop(0, '#fff8d5');
+      sphere.addColorStop(.14, '#ffe89a');
+      sphere.addColorStop(.36, '#e1ad35');
+      sphere.addColorStop(.68, '#a66f10');
+      sphere.addColorStop(.9, '#694108');
+      sphere.addColorStop(1, '#301c07');
       context.fillStyle = sphere;
       context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
 
-      context.globalAlpha = .45;
-      context.strokeStyle = '#b8860b';
-      context.lineWidth = .7;
-      for (let latitude = -2; latitude <= 2; latitude += 1) {
-        const y = cy + latitude * radius * .22;
-        const heightLine = Math.sqrt(Math.max(0, radius * radius - (y - cy) * (y - cy)));
+      const highlight = context.createRadialGradient(cx - radius * .36, cy - radius * .42, 0, cx - radius * .36, cy - radius * .42, radius * .52);
+      highlight.addColorStop(0, 'rgba(255,255,231,.8)');
+      highlight.addColorStop(.3, 'rgba(255,238,157,.3)');
+      highlight.addColorStop(1, 'rgba(255,238,157,0)');
+      context.fillStyle = highlight;
+      context.beginPath();
+      context.arc(cx, cy, radius, 0, Math.PI * 2);
+      context.fill();
+
+      context.lineWidth = Math.max(1, radius * .008);
+      for (let latitude = -3; latitude <= 3; latitude += 1) {
+        const y = cy + latitude * radius * .2;
+        const widthLine = Math.sqrt(Math.max(0, radius * radius - (y - cy) ** 2));
+        context.strokeStyle = latitude === 0 ? 'rgba(255,248,198,.82)' : 'rgba(255,232,142,.48)';
         context.beginPath();
-        context.ellipse(cx, y, heightLine, Math.max(7, radius * (.11 - Math.abs(latitude) * .015)), 0, 0, Math.PI * 2);
+        context.ellipse(cx, y, widthLine, Math.max(5, radius * (.1 - Math.abs(latitude) * .012)), 0, 0, Math.PI * 2);
         context.stroke();
       }
-      for (let longitude = -2; longitude <= 2; longitude += 1) {
-        const x = cx + longitude * radius * .27 + Math.sin(rotation * .5) * radius * .08;
-        const widthLine = Math.sqrt(Math.max(0, radius * radius - (x - cx) * (x - cx)));
+      for (let longitude = -4; longitude <= 4; longitude += 1) {
+        const x = cx + longitude * radius * .21 + Math.sin(rotation * .45) * radius * .07;
+        const heightLine = Math.sqrt(Math.max(0, radius * radius - (x - cx) ** 2));
+        context.strokeStyle = longitude === 0 ? 'rgba(255,248,198,.75)' : 'rgba(255,232,142,.4)';
         context.beginPath();
-        context.ellipse(x, cy, Math.max(7, radius * (.12 - Math.abs(longitude) * .015)), widthLine, 0, 0, Math.PI * 2);
-        context.stroke();
-      }
-      context.globalAlpha = .32;
-      context.strokeStyle = '#f1d67a';
-      context.lineWidth = 1;
-      for (let index = 0; index < 5; index += 1) {
-        const y = cy - radius * .5 + index * radius * .25 + Math.sin(rotation + index) * 2;
-        context.beginPath();
-        context.moveTo(cx - radius, y);
-        context.lineTo(cx + radius, y + Math.cos(index) * 16);
+        context.ellipse(x, cy, Math.max(5, radius * (.12 - Math.abs(longitude) * .012)), heightLine, 0, 0, Math.PI * 2);
         context.stroke();
       }
       context.restore();
+
+      context.strokeStyle = 'rgba(255,245,181,.9)';
+      context.lineWidth = Math.max(1.4, radius * .012);
+      context.beginPath();
+      context.arc(cx, cy, radius, -2.72, -.65);
+      context.stroke();
+      context.strokeStyle = 'rgba(255,217,92,.65)';
+      context.lineWidth = Math.max(1, radius * .007);
+      context.beginPath();
+      context.arc(cx, cy, radius * 1.04, .25, 2.2);
+      context.stroke();
+
+      const core = context.createRadialGradient(cx - radius * .1, cy - radius * .12, 0, cx, cy, radius * .28);
+      core.addColorStop(0, 'rgba(255,255,220,.95)');
+      core.addColorStop(.24, 'rgba(255,233,132,.82)');
+      core.addColorStop(1, 'rgba(212,175,55,0)');
+      context.fillStyle = core;
+      context.beginPath();
+      context.arc(cx, cy, radius * .34, 0, Math.PI * 2);
+      context.fill();
 
       context.save();
       context.globalCompositeOperation = 'lighter';
       particles.forEach((particle, index) => {
-        const orbitAngle = particle.angle + time * particle.speed + rotation * .25;
-        const px = cx + Math.cos(orbitAngle) * radius * (1.1 + particle.radius * .17);
-        const py = cy + Math.sin(orbitAngle) * radius * (.55 + particle.radius * .14);
-        context.globalAlpha = .2 + (index % 5) * .1;
-        context.fillStyle = index % 4 === 0 ? '#fff0a6' : '#d4af37';
+        const orbitAngle = particle.angle + time * particle.speed + rotation * .18;
+        const px = cx + Math.cos(orbitAngle) * radius * (1.08 + particle.radius * .17);
+        const py = cy + Math.sin(orbitAngle) * radius * (.62 + particle.radius * .12);
+        context.globalAlpha = .34 + (index % 4) * .12;
+        context.fillStyle = index % 3 === 0 ? '#fff5bd' : '#e7bd4f';
         context.beginPath();
         context.arc(px, py, particle.size, 0, Math.PI * 2);
         context.fill();
       });
-      bursts.forEach((burst, index) => {
-        const pulse = (Math.sin(time * 0.0022 + burst.phase) + 1) / 2;
-        const burstAngle = burst.angle + rotation * (index % 2 ? -0.18 : 0.24);
-        const bx = cx + Math.cos(burstAngle) * radius * burst.orbit;
-        const by = cy + Math.sin(burstAngle) * radius * burst.orbit * .72;
-        const reach = radius * (.045 + pulse * .085);
-        context.globalAlpha = .16 + pulse * .45;
-        context.strokeStyle = index % 2 ? '#fff0a6' : '#d4af37';
-        context.lineWidth = 1 + pulse;
-        for (let ray = 0; ray < 8; ray += 1) {
-          const rayAngle = ray * Math.PI / 4 + burst.phase;
-          context.beginPath();
-          context.moveTo(bx + Math.cos(rayAngle) * radius * .012, by + Math.sin(rayAngle) * radius * .012);
-          context.lineTo(bx + Math.cos(rayAngle) * reach, by + Math.sin(rayAngle) * reach);
-          context.stroke();
-        }
-        context.fillStyle = '#fff0a6';
+      pulses.forEach((pulse, index) => {
+        const intensity = (Math.sin(time * .002 + pulse.phase) + 1) / 2;
+        const angle = pulse.angle + rotation * (index % 2 ? -.12 : .16);
+        const px = cx + Math.cos(angle) * radius * 1.02;
+        const py = cy + Math.sin(angle) * radius * .62;
+        context.globalAlpha = .4 + intensity * .5;
+        context.strokeStyle = index % 2 ? '#fff4b1' : '#d4af37';
+        context.lineWidth = 1.2 + intensity;
         context.beginPath();
-        context.arc(bx, by, 1.5 + pulse * 2.5, 0, Math.PI * 2);
-        context.fill();
-      });
-      context.globalAlpha = .35;
-      context.strokeStyle = '#d4af37';
-      context.lineWidth = 1;
-      for (let index = 0; index < 4; index += 1) {
-        const start = rotation * .4 + index * 1.7;
-        context.beginPath();
-        context.moveTo(cx + Math.cos(start) * radius * .78, cy + Math.sin(start) * radius * .7);
-        context.lineTo(cx + Math.cos(start + .25) * radius * 1.28, cy + Math.sin(start + .25) * radius * 1.03);
+        context.arc(px, py, 5 + intensity * 7, 0, Math.PI * 2);
         context.stroke();
-      }
+      });
       context.restore();
 
       if (!reduced) {
-        rotation += 0.004;
+        rotation += 0.003;
         animationFrame = requestAnimationFrame(render);
       }
     };
+
     const onPointerMove = (event: PointerEvent) => {
       if (event.pointerType === 'touch') return;
       const box = canvas.getBoundingClientRect();
@@ -216,7 +219,6 @@ function TechnologyPlanet() {
     canvas.addEventListener('pointerleave', resetPointer);
     window.addEventListener('resize', resize);
     render(0);
-    if (reduced) cancelAnimationFrame(animationFrame);
     return () => {
       cancelAnimationFrame(animationFrame);
       canvas.removeEventListener('pointermove', onPointerMove);
@@ -229,6 +231,7 @@ function TechnologyPlanet() {
     <div className="planet-wrap" aria-label="Planeta tecnológico animado" role="img">
       <div className="orbit" />
       <div className="orbit orbit-two" />
+      <div className="planet-halo" aria-hidden="true" />
       <canvas ref={canvasRef} className="planet-canvas" />
       <span className="planet-tag one">sistemas em órbita</span>
       <span className="planet-tag two">código vivo</span>
@@ -236,7 +239,6 @@ function TechnologyPlanet() {
     </div>
   );
 }
-
 function SectionHeading({ eyebrow, title, children, light = false }: { eyebrow: string; title: string; children?: ReactNode; light?: boolean }) {
   return (
     <div className={`reveal max-w-3xl ${light ? 'text-[#201a13]' : ''}`}>
@@ -493,7 +495,7 @@ function App() {
 
       <footer className="border-t border-[#d4af37]/18 bg-[#100e0b] py-12">
         <div className="container-wide grid gap-12 md:grid-cols-[1.4fr_.7fr_.8fr]">
-          <div><a href="#inicio" className="inline-flex" data-testid="link-footer-logo"><BrandLockup /></a><p className="mt-6 max-w-xs text-sm leading-6 text-[#847c72]">Desenvolvimento web premium. Sites, Landing Pages e Sistemas sob medida.</p><div className="mt-7 flex gap-3"><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-instagram"><Instagram size={17} /></a><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-linkedin"><Linkedin size={17} /></a></div></div>
+          <div><a href="#inicio" className="inline-flex" data-testid="link-footer-logo"><BrandLockup /></a><p className="mt-6 max-w-xs text-sm leading-6 text-[#847c72]">Desenvolvimento web premium. Sites, Landing Pages e Sistemas sob medida.</p><div className="mt-7 flex gap-3"><a href="https://www.instagram.com/dk_codeoficial?stkn=NDc1cjd5aWhmeDJ3" target="_blank" rel="noreferrer" aria-label="Instagram da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-instagram"><Instagram size={17} /></a></div></div>
           <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Navegação</p><div className="mt-5 grid gap-3">{[['Início', '#inicio'], ['Serviços', '#servicos'], ['Contato', '#contato']].map(([label, href]) => <a href={href} key={href} className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid={`link-footer-${label.toLowerCase()}`}>{label}</a>)}</div></div>
           <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Contato</p><div className="mt-5 grid gap-3"><a href="mailto:contato@dkcode.com.br" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-email">contato@dkcode.com.br</a><a href={whatsappHref('Olá, gostaria de falar com a DK CODE.')} target="_blank" rel="noreferrer" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-whatsapp">WhatsApp</a></div></div>
         </div>
