@@ -250,9 +250,11 @@ function SectionHeading({ eyebrow, title, children, light = false }: { eyebrow: 
 }
 
 const services = [
-  { icon: Globe2, number: '01', title: 'Sites', body: 'Sites institucionais rápidos, modernos, responsivos e otimizados para Google.' },
-  { icon: MousePointer2, number: '02', title: 'Landing Pages', body: 'Landing Pages criadas para gerar mais contatos e aumentar conversões.' },
-  { icon: Blocks, number: '03', title: 'Sistemas', body: 'Sistemas personalizados para automatizar processos e aumentar a produtividade.' },
+  { icon: Globe2, number: '01', title: 'Sites e Landing Pages', body: 'Experiências digitais rápidas, responsivas e pensadas para posicionar sua marca e gerar conversões.' },
+  { icon: MousePointer2, number: '02', title: 'Aplicativos', body: 'Aplicativos web e mobile sob medida para aproximar sua empresa dos clientes e acelerar operações.' },
+  { icon: Blocks, number: '03', title: 'Sistemas e Softwares', body: 'Plataformas personalizadas para organizar processos, integrar dados e escalar o seu negócio.' },
+  { icon: PanelTop, number: '04', title: 'CRMs', body: 'Ferramentas de relacionamento para centralizar oportunidades, equipes, clientes e vendas.' },
+  { icon: Gauge, number: '05', title: 'Automações', body: 'Fluxos inteligentes que reduzem tarefas manuais, conectam ferramentas e aumentam a produtividade.' },
 ];
 
 const process = [
@@ -377,10 +379,10 @@ function App() {
           <div className="container-wide relative z-10 grid items-center gap-8 pb-14 lg:grid-cols-[.92fr_1.08fr] lg:gap-0 lg:pb-0">
             <div className="reveal">
               <h1 className="hero-title display mt-8 max-w-2xl text-[clamp(3.4rem,7.6vw,7.25rem)] font-semibold leading-[.84] text-[#f3efe6]">
-                Desenvolvimento<br /><span className="gold-text">Web Premium</span>
+                Desenvolvimento<br /><span className="gold-text">Digital Premium</span>
               </h1>
               <p className="mt-8 max-w-lg text-lg leading-8 text-[#b8afa2] md:text-xl">Transformamos ideias em soluções digitais.</p>
-              <p className="mt-4 max-w-md text-sm leading-6 text-[#847c72]">Criamos Sites, Landing Pages e Sistemas personalizados para empresas que desejam crescer na internet.</p>
+              <p className="mt-4 max-w-md text-sm leading-6 text-[#847c72]">Criamos sites, aplicativos, sistemas, CRMs, softwares e automações sob medida para empresas que desejam crescer.</p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="gold-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-budget">Solicitar orçamento <ArrowRight size={15} /></a>
                 <a href="#servicos" className="ghost-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-services">Conhecer serviços <ArrowDown size={15} /></a>
@@ -409,7 +411,7 @@ function App() {
           <div className="container-wide">
             <div className="reveal grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
               <div><span className="eyebrow">Posicionamento</span><h2 className="display mt-5 text-4xl font-semibold leading-none md:text-6xl">Tecnologia feita<br /><em className="gold-text not-italic">sob medida.</em></h2></div>
-              <p className="max-w-xl text-base leading-8 text-[#a8a096]">Desenvolvemos experiências digitais personalizadas para empresas que buscam presença, eficiência e inovação no ambiente digital.</p>
+              <p className="max-w-xl text-base leading-8 text-[#a8a096]">Criamos sites, aplicativos, sistemas, CRMs, softwares e automações para empresas que buscam presença, eficiência e inovação.</p>
             </div>
             <div className="mt-16 grid border-t border-[#a58c62]/30 md:grid-cols-3">
               {[
@@ -423,7 +425,7 @@ function App() {
 
         <section id="servicos" className="section-dark py-24 md:py-32">
           <div className="container-wide">
-            <SectionHeading eyebrow="O que fazemos" title="Serviços sob medida">Soluções completas para posicionar sua marca no digital.</SectionHeading>
+            <SectionHeading eyebrow="O que fazemos" title="Soluções digitais completas">Da presença digital à automação da operação, construímos a tecnologia que o seu negócio precisa.</SectionHeading>
             <div className="mt-16 grid gap-4 lg:grid-cols-3">
               {services.map(({ icon: Icon, number, title, body }, index) => <article className={`feature-card reveal delay-${index + 1} p-7 md:p-9`} key={title} data-testid={`card-service-${number}`}>
                 <div className="flex items-start justify-between"><div className="icon-box grid h-12 w-12 place-items-center"><Icon size={21} strokeWidth={1.4} /></div><span className="font-mono text-xs text-[#746754]">{number}</span></div>
