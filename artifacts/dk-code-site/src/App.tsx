@@ -6,8 +6,6 @@ import {
   Blocks,
   Check,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   Code2,
   Gauge,
   Globe2,
@@ -31,18 +29,20 @@ import {
 import { type ReactNode } from 'react';
 import './index.css';
 import logoMark from './assets/dk-code-mark.png';
-import logoFull from './assets/dk-code-logo.png';
 
 const whatsappNumber = '5511963079086';
 const whatsappHref = (message: string) =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+function BrandLockup({ compact = false }: { compact?: boolean }) {
+  return <span className={`brand-lockup ${compact ? 'brand-lockup-compact' : ''}`}><img src={logoMark} alt="" /><span className="brand-wordmark">DK CODE</span></span>;
+}
 const navItems = [
   ['Início', '#inicio'],
   ['Serviços', '#servicos'],
   ['Parceiros', '#parceiros'],
   ['Processo', '#processo'],
   ['Sobre', '#sobre'],
-  ['Depoimentos', '#depoimentos'],
   ['FAQ', '#faq'],
   ['Contato', '#contato'],
 ];
@@ -280,7 +280,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
   useScrollReveal();
 
   useEffect(() => {
@@ -291,8 +290,6 @@ function App() {
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
-  const testimonials = [['“Excelente atendimento e um site muito acima das expectativas. Superou tudo que imaginávamos.”', 'Carla Meireles', 'CEO — Studio Vittá']];
-  const currentTestimonial = testimonials[testimonialIndex];
 
   return (
     <div className="site-shell">
@@ -300,7 +297,7 @@ function App() {
       <header className={`fixed inset-x-0 top-0 z-40 border-b transition-all duration-500 ${scrolled ? 'header-glass py-3' : 'border-transparent py-5'}`}>
         <div className="container-wide flex items-center justify-between">
           <a href="#inicio" onClick={closeMenu} className="group flex items-center gap-3" data-testid="link-logo">
-            <img src={logoMark} alt="DK CODE" className="header-logo-mark transition-transform group-hover:rotate-6" />
+            <BrandLockup compact />
           </a>
           <nav className="hidden items-center gap-6 lg:flex" aria-label="Navegação principal">
             {navItems.map(([label, href]) => <a key={href} href={href} className="nav-link text-[11px] font-medium tracking-[.05em]" data-testid={`link-nav-${label.toLowerCase()}`}>{label}</a>)}
@@ -324,7 +321,6 @@ function App() {
         <section id="inicio" className="hero-vignette hero-grid relative flex min-h-[800px] items-center overflow-hidden pt-28 md:min-h-[850px]">
           <div className="container-wide relative z-10 grid items-center gap-8 pb-14 lg:grid-cols-[.92fr_1.08fr] lg:gap-0 lg:pb-0">
             <div className="reveal">
-              <span className="eyebrow">Estúdio digital independente</span>
               <h1 className="hero-title display mt-8 max-w-2xl text-[clamp(3.4rem,7.6vw,7.25rem)] font-semibold leading-[.84] text-[#f3efe6]">
                 Desenvolvimento<br /><span className="gold-text">Web Premium</span>
               </h1>
@@ -430,13 +426,6 @@ function App() {
           </div>
         </section>
 
-        <section id="depoimentos" className="section-dark py-24 md:py-32">
-          <div className="container-wide">
-            <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Depoimentos" title="O que dizem sobre nós" /><div className="flex gap-2"><button type="button" onClick={() => setTestimonialIndex((value) => (value - 1 + testimonials.length) % testimonials.length)} className="grid h-11 w-11 place-items-center border border-[#d4af37]/35 text-[#fff0a6] transition-colors hover:bg-[#d4af37]/10" aria-label="Depoimento anterior" data-testid="button-testimonial-prev"><ChevronLeft size={17} /></button><button type="button" onClick={() => setTestimonialIndex((value) => (value + 1) % testimonials.length)} className="grid h-11 w-11 place-items-center border border-[#d4af37]/35 text-[#fff0a6] transition-colors hover:bg-[#d4af37]/10" aria-label="Próximo depoimento" data-testid="button-testimonial-next"><ChevronRight size={17} /></button></div></div>
-            <div className="reveal mt-16 grid gap-10 border-y border-[#d4af37]/20 py-12 md:grid-cols-[.25fr_1fr_.6fr] md:items-start"><span className="quote-mark">“</span><blockquote className="display max-w-3xl text-3xl leading-[1.1] text-[#f3efe6] md:text-5xl" key={currentTestimonial[0]}>{currentTestimonial[0]}</blockquote><div className="md:border-l md:border-[#d4af37]/20 md:pl-8"><p className="font-semibold text-[#f3efe6]">{currentTestimonial[1]}</p><p className="mt-2 text-xs uppercase tracking-[.13em] text-[#857c6f]">{currentTestimonial[2]}</p><p className="mt-8 font-mono text-[10px] uppercase tracking-[.16em] text-[#d4af37]">Estrutura preparada para novos depoimentos</p></div></div>
-          </div>
-        </section>
-
         <section id="faq" className="section-ink py-24 md:py-32">
           <div className="container-wide grid gap-16 lg:grid-cols-[.7fr_1.3fr]"><SectionHeading eyebrow="FAQ" title="Dúvidas frequentes">Respostas objetivas para você avançar com clareza.</SectionHeading><div>{faqs.map(([question, answer], index) => <div className="faq-row" key={question}><button type="button" onClick={() => setOpenFaq(openFaq === index ? null : index)} className="faq-button" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} data-testid={`button-faq-${index}`}><span>{question}</span><Plus size={19} /></button><div id={`faq-answer-${index}`} className={`grid transition-[grid-template-rows] duration-300 ${openFaq === index ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}><div className="overflow-hidden"><p className="max-w-2xl pb-6 pr-10 text-sm leading-7 text-[#9b9286]">{answer}</p></div></div></div>)}</div></div>
         </section>
@@ -449,7 +438,7 @@ function App() {
 
       <footer className="border-t border-[#d4af37]/18 bg-[#100e0b] py-12">
         <div className="container-wide grid gap-12 md:grid-cols-[1.4fr_.7fr_.8fr]">
-          <div><a href="#inicio" className="inline-flex" data-testid="link-footer-logo"><img src={logoFull} alt="DK CODE" className="footer-logo" /></a><p className="mt-6 max-w-xs text-sm leading-6 text-[#847c72]">Desenvolvimento web premium. Sites, Landing Pages e Sistemas sob medida.</p><div className="mt-7 flex gap-3"><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-instagram"><Instagram size={17} /></a><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-linkedin"><Linkedin size={17} /></a></div></div>
+          <div><a href="#inicio" className="inline-flex" data-testid="link-footer-logo"><BrandLockup /></a><p className="mt-6 max-w-xs text-sm leading-6 text-[#847c72]">Desenvolvimento web premium. Sites, Landing Pages e Sistemas sob medida.</p><div className="mt-7 flex gap-3"><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-instagram"><Instagram size={17} /></a><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-linkedin"><Linkedin size={17} /></a></div></div>
           <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Navegação</p><div className="mt-5 grid gap-3">{[['Início', '#inicio'], ['Serviços', '#servicos'], ['Contato', '#contato']].map(([label, href]) => <a href={href} key={href} className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid={`link-footer-${label.toLowerCase()}`}>{label}</a>)}</div></div>
           <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Contato</p><div className="mt-5 grid gap-3"><a href="mailto:contato@dkcode.com.br" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-email">contato@dkcode.com.br</a><a href={whatsappHref('Olá, gostaria de falar com a DK CODE.')} target="_blank" rel="noreferrer" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-whatsapp">WhatsApp</a></div></div>
         </div>
