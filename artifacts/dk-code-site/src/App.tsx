@@ -241,10 +241,10 @@ function TechnologyPlanet() {
 }
 function SectionHeading({ eyebrow, title, children, light = false }: { eyebrow: string; title: string; children?: ReactNode; light?: boolean }) {
   return (
-    <div className={`reveal max-w-3xl ${light ? 'text-[#201a13]' : ''}`}>
+    <div className={`reveal max-w-3xl ${light ? 'text-[#f3efe6]' : ''}`}>
       <span className={`eyebrow ${light ? 'text-[#8c6a1d]' : ''}`}>{eyebrow}</span>
       <h2 className="display mt-5 text-4xl font-semibold leading-[.98] tracking-[-.06em] md:text-6xl">{title}</h2>
-      {children && <p className={`mt-6 max-w-xl text-base leading-7 ${light ? 'text-[#5f5549]' : 'text-[#a8a096]'}`}>{children}</p>}
+      {children && <p className={`mt-6 max-w-xl text-base leading-7 ${light ? 'text-[#a8a096]' : 'text-[#a8a096]'}`}>{children}</p>}
     </div>
   );
 }
@@ -388,8 +388,17 @@ function App() {
               <div className="mt-12 flex items-center gap-3 text-[10px] uppercase tracking-[.16em] text-[#6f685e]"><span className="h-px w-10 bg-[#8c6a1d]" /> Design + tecnologia + precisão</div>
             </div>
             <div className="reveal delay-2 relative flex justify-center lg:justify-end">
-              <div className="hero-visual">
+              <div className="hero-visual hero-visual-desktop">
                 <TechnologyPlanet />
+              </div>
+              <div className="mobile-hero-art" aria-hidden="true">
+                <div className="mobile-hero-orbit mobile-hero-orbit-one" />
+                <div className="mobile-hero-orbit mobile-hero-orbit-two" />
+                <div className="mobile-hero-core"><span>DK</span><i>CODE</i></div>
+                <span className="mobile-hero-star star-one" />
+                <span className="mobile-hero-star star-two" />
+                <span className="mobile-hero-star star-three" />
+                <span className="mobile-hero-caption">design + tecnologia</span>
               </div>
             </div>
           </div>
@@ -400,14 +409,14 @@ function App() {
           <div className="container-wide">
             <div className="reveal grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
               <div><span className="eyebrow">Posicionamento</span><h2 className="display mt-5 text-4xl font-semibold leading-none md:text-6xl">Tecnologia feita<br /><em className="gold-text not-italic">sob medida.</em></h2></div>
-              <p className="max-w-xl text-base leading-8 text-[#5f5549]">Desenvolvemos experiências digitais personalizadas para empresas que buscam presença, eficiência e inovação no ambiente digital.</p>
+              <p className="max-w-xl text-base leading-8 text-[#a8a096]">Desenvolvemos experiências digitais personalizadas para empresas que buscam presença, eficiência e inovação no ambiente digital.</p>
             </div>
             <div className="mt-16 grid border-t border-[#a58c62]/30 md:grid-cols-3">
               {[
                 ['01', 'Design Premium', 'Interfaces modernas, sofisticadas e pensadas para gerar uma experiência diferenciada.'],
                 ['02', 'Tecnologia', 'Soluções desenvolvidas com tecnologias modernas e arquitetura preparada para evolução.'],
                 ['03', 'Sob Medida', 'Cada projeto é desenvolvido de acordo com as necessidades específicas do negócio.'],
-              ].map(([number, title, body], index) => <article className={`reveal delay-${index + 1} border-b border-[#a58c62]/30 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0`} key={title}><span className="font-mono text-xs text-[#8c6a1d]">{number}</span><h3 className="display mt-8 text-2xl font-semibold">{title}</h3><p className="mt-4 text-sm leading-6 text-[#6d6256]">{body}</p></article>)}
+              ].map(([number, title, body], index) => <article className={`reveal delay-${index + 1} border-b border-[#a58c62]/30 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0`} key={title}><span className="font-mono text-xs text-[#8c6a1d]">{number}</span><h3 className="display mt-8 text-2xl font-semibold">{title}</h3><p className="mt-4 text-sm leading-6 text-[#a8a096]">{body}</p></article>)}
             </div>
           </div>
         </section>
@@ -429,8 +438,8 @@ function App() {
           <div className="absolute -right-24 top-10 h-80 w-80 rounded-full border border-[#b8860b]/10" />
           <div className="container-wide relative">
             <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
-              <SectionHeading light eyebrow="Nossos parceiros" title="Marcas que constroem com a DK CODE." />
-              <p className="max-w-xl text-base leading-8 text-[#5f5549]">Este espaço será dedicado aos parceiros que autorizarem a apresentação de suas marcas e dos projetos desenvolvidos em conjunto.</p>
+              <SectionHeading eyebrow="Nossos parceiros" title="Marcas que constroem com a DK CODE." />
+              <p className="max-w-xl text-base leading-8 text-[#a8a096]">Este espaço será dedicado aos parceiros que autorizarem a apresentação de suas marcas e dos projetos desenvolvidos em conjunto.</p>
             </div>
             <div className="mt-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
@@ -444,7 +453,7 @@ function App() {
                 <p className="mt-5 text-[10px] uppercase tracking-[.14em] text-[#8c6a1d]">{detail}</p>
               </div>)}
             </div>
-            <div className="mt-8 flex flex-col justify-between gap-5 border-t border-[#a58c62]/30 pt-6 text-sm text-[#6d6256] md:flex-row md:items-center">
+            <div className="mt-8 flex flex-col justify-between gap-5 border-t border-[#a58c62]/30 pt-6 text-sm text-[#a8a096] md:flex-row md:items-center">
               <p>Novas histórias e identidades serão adicionadas aqui com autorização.</p>
               <a href={whatsappHref('Olá, gostaria de apresentar minha empresa como parceira da DK CODE.')} target="_blank" rel="noreferrer" className="project-link !text-[#8c6a1d]" data-testid="link-partner-whatsapp">Quero ser parceiro <ArrowRight size={14} /></a>
             </div>
@@ -464,9 +473,9 @@ function App() {
         <section className="section-paper py-24 md:py-32">
           <div className="container-wide">
             <div className="grid gap-14 lg:grid-cols-[.8fr_1.2fr]">
-              <SectionHeading light eyebrow="Por que a DK CODE" title="Diferenciais que aparecem no resultado." />
+              <SectionHeading eyebrow="Por que a DK CODE" title="Diferenciais que aparecem no resultado." />
               <div className="grid grid-cols-2 gap-x-4 gap-y-0 border-t border-[#a58c62]/30 sm:grid-cols-3">
-                {differentiators.map(([Icon, label], index) => <div className={`reveal delay-${(index % 3) + 1} flex items-center gap-3 border-b border-[#a58c62]/30 py-5`} key={label as string}><Icon size={17} strokeWidth={1.4} className="text-[#8c6a1d]" /><span className="text-sm text-[#51483e]">{label as string}</span></div>)}
+                {differentiators.map(([Icon, label], index) => <div className={`reveal delay-${(index % 3) + 1} flex items-center gap-3 border-b border-[#a58c62]/30 py-5`} key={label as string}><Icon size={17} strokeWidth={1.4} className="text-[#8c6a1d]" /><span className="text-sm text-[#d8d0c3]">{label as string}</span></div>)}
               </div>
             </div>
           </div>
@@ -489,7 +498,7 @@ function App() {
 
         <section id="contato" className="section-paper relative overflow-hidden py-24 md:py-32">
           <div className="absolute -right-20 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full border border-[#b8860b]/15" /><div className="absolute -right-8 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full border border-[#b8860b]/20" />
-          <div className="container-wide relative grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end"><div><SectionHeading light eyebrow="Contato" title="Vamos conversar"><strong>Pronto para crescer?</strong><br />Conte-nos sobre o seu projeto. Respondemos em até 24 horas úteis com uma proposta personalizada.</SectionHeading><div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center"><a href={whatsappHref('Olá, gostaria de conversar sobre um projeto para a minha empresa.')} target="_blank" rel="noreferrer" className="gold-button px-7 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-contact-whatsapp">Falar pelo WhatsApp <MessageCircle size={15} /></a><a href="mailto:contato@dkcode.com.br" className="ghost-button border-[#8c6a1d]/40 !text-[#51483e] px-6 py-4 text-xs uppercase tracking-[.1em] hover:!bg-[#8c6a1d]/5" data-testid="link-contact-email"><Mail size={15} /> contato@dkcode.com.br</a></div></div><div className="border-l border-[#a58c62]/30 pl-7"><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#8c6a1d]">Canal direto</p><a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="display mt-4 block text-3xl font-semibold text-[#201a13] transition-colors hover:text-[#8c6a1d]" data-testid="link-contact-direct">WhatsApp direto <MoveUpRight className="inline" size={20} /></a><p className="mt-3 text-sm leading-6 text-[#6d6256]">Sem formulário. Apenas uma conversa sobre o que você quer construir.</p></div></div>
+          <div className="container-wide relative grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end"><div><SectionHeading eyebrow="Contato" title="Vamos conversar"><strong>Pronto para crescer?</strong><br />Conte-nos sobre o seu projeto. Respondemos em até 24 horas úteis com uma proposta personalizada.</SectionHeading><div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center"><a href={whatsappHref('Olá, gostaria de conversar sobre um projeto para a minha empresa.')} target="_blank" rel="noreferrer" className="gold-button px-7 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-contact-whatsapp">Falar pelo WhatsApp <MessageCircle size={15} /></a><a href="mailto:contato@dkcode.com.br" className="ghost-button border-[#8c6a1d]/40 !text-[#d8d0c3] px-6 py-4 text-xs uppercase tracking-[.1em] hover:!bg-[#8c6a1d]/5" data-testid="link-contact-email"><Mail size={15} /> contato@dkcode.com.br</a></div></div><div className="border-l border-[#a58c62]/30 pl-7"><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#8c6a1d]">Canal direto</p><a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="display mt-4 block text-3xl font-semibold text-[#f3efe6] transition-colors hover:text-[#8c6a1d]" data-testid="link-contact-direct">WhatsApp direto <MoveUpRight className="inline" size={20} /></a><p className="mt-3 text-sm leading-6 text-[#a8a096]">Sem formulário. Apenas uma conversa sobre o que você quer construir.</p></div></div>
         </section>
       </main>
 
