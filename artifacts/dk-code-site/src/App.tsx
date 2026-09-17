@@ -28,14 +28,14 @@ import {
 } from 'lucide-react';
 import { type ReactNode } from 'react';
 import './index.css';
-import logoMark from './assets/dk-code-mark.png';
+import logoFull from './assets/dk-code-logo.png';
 
 const whatsappNumber = '5511963079086';
 const whatsappHref = (message: string) =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
 function BrandLockup({ compact = false }: { compact?: boolean }) {
-  return <span className={`brand-lockup ${compact ? 'brand-lockup-compact' : ''}`}><img src={logoMark} alt="" /><span className="brand-wordmark">DK CODE</span></span>;
+  return <span className={`brand-lockup ${compact ? 'brand-lockup-compact' : ''}`}><img src={logoFull} alt="DK CODE" /></span>;
 }
 const navItems = [
   ['Início', '#inicio'],
@@ -280,7 +280,57 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const heroRef = useRef<HTMLElement>(null);
   useScrollReveal();
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const target = { x: 0.5, y: 0.5 };
+    const current = { x: 0.5, y: 0.5 };
+    let animationFrame = 0;
+    let resetTimer = 0;
+
+    const clamp = (value: number) => Math.max(0.04, Math.min(0.96, value));
+    const setTargetFromPointer = (event: PointerEvent) => {
+      const box = hero.getBoundingClientRect();
+      target.x = clamp((event.clientX - box.left) / box.width);
+      target.y = clamp((event.clientY - box.top) / box.height);
+      hero.classList.add('is-interacting');
+      window.clearTimeout(resetTimer);
+      if (event.pointerType === 'touch') {
+        resetTimer = window.setTimeout(() => hero.classList.remove('is-interacting'), 1400);
+      }
+    };
+    const resetTarget = () => {
+      target.x = 0.5;
+      target.y = 0.5;
+      hero.classList.remove('is-interacting');
+    };
+    const render = () => {
+      current.x += (target.x - current.x) * 0.085;
+      current.y += (target.y - current.y) * 0.085;
+      hero.style.setProperty('--pointer-x', `${current.x * 100}%`);
+      hero.style.setProperty('--pointer-y', `${current.y * 100}%`);
+      hero.style.setProperty('--parallax-x', `${(current.x - 0.5) * 18}px`);
+      hero.style.setProperty('--parallax-y', `${(current.y - 0.5) * 14}px`);
+      animationFrame = requestAnimationFrame(render);
+    };
+
+    hero.addEventListener('pointermove', setTargetFromPointer);
+    hero.addEventListener('pointerdown', setTargetFromPointer);
+    hero.addEventListener('pointerleave', resetTarget);
+    if (!reduceMotion) animationFrame = requestAnimationFrame(render);
+    return () => {
+      window.clearTimeout(resetTimer);
+      cancelAnimationFrame(animationFrame);
+      hero.removeEventListener('pointermove', setTargetFromPointer);
+      hero.removeEventListener('pointerdown', setTargetFromPointer);
+      hero.removeEventListener('pointerleave', resetTarget);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -318,7 +368,10 @@ function App() {
       </header>
 
       <main>
-        <section id="inicio" className="hero-vignette hero-grid relative flex min-h-[800px] items-center overflow-hidden pt-28 md:min-h-[850px]">
+        <section ref={heroRef} id="inicio" className="hero-vignette hero-grid hero-stage relative flex min-h-[800px] items-center overflow-hidden pt-28 md:min-h-[850px]">
+          <div className="hero-pointer-glow" aria-hidden="true" />
+          <div className="hero-scanline" aria-hidden="true" />
+          <div className="hero-pointer-ring" aria-hidden="true" />
           <div className="container-wide relative z-10 grid items-center gap-8 pb-14 lg:grid-cols-[.92fr_1.08fr] lg:gap-0 lg:pb-0">
             <div className="reveal">
               <h1 className="hero-title display mt-8 max-w-2xl text-[clamp(3.4rem,7.6vw,7.25rem)] font-semibold leading-[.84] text-[#f3efe6]">
@@ -333,7 +386,9 @@ function App() {
               <div className="mt-12 flex items-center gap-3 text-[10px] uppercase tracking-[.16em] text-[#6f685e]"><span className="h-px w-10 bg-[#8c6a1d]" /> Design + tecnologia + precisão</div>
             </div>
             <div className="reveal delay-2 relative flex justify-center lg:justify-end">
-              <TechnologyPlanet />
+              <div className="hero-visual">
+                <TechnologyPlanet />
+              </div>
             </div>
           </div>
           <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 text-[10px] uppercase tracking-[.18em] text-[#6f685e] md:flex">Explore o universo DK <ArrowDown size={13} /></div>
@@ -419,7 +474,7 @@ function App() {
           <div className="container-wide grid gap-16 lg:grid-cols-[1fr_1fr] lg:items-center">
             <div className="reveal relative min-h-[480px] overflow-hidden border border-[#d4af37]/20 bg-[#1a1510] p-8">
               <div className="absolute inset-0 opacity-60" style={{ backgroundImage: 'linear-gradient(rgba(212,175,55,.11) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,.11) 1px, transparent 1px)', backgroundSize: '44px 44px' }} />
-              <div className="absolute left-1/2 top-1/2 grid h-44 w-44 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d4af37]/60 bg-[radial-gradient(circle,#6b5228,#16110c_67%)] shadow-[0_0_80px_rgba(212,175,55,.16)]"><img src={logoMark} alt="" className="h-28 w-28 object-contain" /></div>
+              <div className="absolute left-1/2 top-1/2 grid h-52 w-52 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d4af37]/60 bg-[radial-gradient(circle,#6b5228,#16110c_67%)] shadow-[0_0_80px_rgba(212,175,55,.16)]"><img src={logoFull} alt="DK CODE" className="h-40 w-32 object-contain" /></div>
               <div className="absolute left-8 top-8 font-mono text-[10px] uppercase tracking-[.17em] text-[#d4af37]">Sobre a DK CODE</div><div className="absolute bottom-8 right-8 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.17em] text-[#837b70]"><Sparkles size={13} className="text-[#d4af37]" /> Tecnologia com propósito</div>
             </div>
             <div><SectionHeading eyebrow="Sobre a DK CODE" title="Tecnologia com propósito">Somos um estúdio de desenvolvimento focado em criar experiências digitais que combinam design refinado, performance técnica e resultado comercial. Trabalhamos lado a lado com nossos clientes para entregar projetos únicos, escaláveis e feitos para converter.</SectionHeading><div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-8 border-t border-[#d4af37]/20 pt-8">{['Design premium', 'Performance', 'SEO', 'Suporte contínuo'].map((item) => <div className="flex items-center gap-3 text-sm text-[#c7beb0]" key={item}><Check size={15} className="text-[#d4af37]" /> {item}</div>)}</div></div>
