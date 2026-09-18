@@ -84,6 +84,7 @@
 .gold-text { color: #CDA354; }
 .metal-line { background: linear-gradient(90deg, transparent, #A47F3F, #F2DBA9, #B8914B, transparent); }
 .header-glass { background: rgba(16,14,11,.72); backdrop-filter: blur(18px); border-color: rgba(205,163,84,.2); }
+.mobile-header-open { background: rgba(16,14,11,.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-color: rgba(205,163,84,.28); }
 .nav-link { position: relative; color: rgba(243,239,230,.76); transition: color .25s ease; }
 .nav-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -9px; height: 1px; transform: scaleX(0); transform-origin: right; transition: transform .3s ease; background: linear-gradient(90deg, #A47F3F, #F2DBA9); }
 .nav-link:hover, .nav-link:focus-visible { color: #F2DBA9; }
@@ -176,8 +177,8 @@
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 .delay-1 { transition-delay: .1s; } .delay-2 { transition-delay: .2s; } .delay-3 { transition-delay: .3s; }
-.mobile-menu { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .35s ease, opacity .25s ease; }
-.mobile-menu.open { max-height: 480px; opacity: 1; }
+.mobile-menu { position: relative; z-index: 5; max-height: 0; opacity: 0; overflow: hidden; background: rgba(16,14,11,.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: max-height .35s ease, opacity .25s ease, background-color .25s ease; }
+.mobile-menu.open { max-height: 480px; opacity: 1; background: rgba(16,14,11,.97); }
 .noise { position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E"); }
 .mobile-hero-art { display: none; }
 

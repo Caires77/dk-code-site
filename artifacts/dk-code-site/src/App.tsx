@@ -354,7 +354,7 @@ function App() {
   return (
     <div className="site-shell">
       <div className="noise" />
-      <header className={`fixed inset-x-0 top-0 z-40 border-b transition-all duration-500 ${scrolled ? 'header-glass py-3' : 'border-transparent py-5'}`}>
+      <header className={`fixed inset-x-0 top-0 z-40 border-b transition-all duration-500 ${scrolled ? 'header-glass py-3' : 'border-transparent py-5'} ${menuOpen ? 'mobile-header-open' : ''}`}>
         <div className="container-wide flex items-center justify-between">
           <a href="#inicio" onClick={closeMenu} className="group flex items-center gap-3" data-testid="link-logo">
             <BrandLockup compact />
