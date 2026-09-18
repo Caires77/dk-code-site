@@ -38,6 +38,7 @@ function BrandLockup({ compact = false }: { compact?: boolean }) {
 }
 const navItems = [
   ['Início', '#inicio'],
+  ['O problema', '#problema'],
   ['Serviços', '#servicos'],
   ['Parceiros', '#parceiros'],
   ['Processo', '#processo'],
@@ -103,9 +104,9 @@ function TechnologyPlanet() {
 
       const atmosphere = context.createRadialGradient(cx, cy, radius * .55, cx, cy, radius * 1.52);
       atmosphere.addColorStop(0, 'rgba(255,232,117,.25)');
-      atmosphere.addColorStop(.46, 'rgba(212,175,55,.18)');
-      atmosphere.addColorStop(.78, 'rgba(184,134,11,.08)');
-      atmosphere.addColorStop(1, 'rgba(184,134,11,0)');
+      atmosphere.addColorStop(.46, 'rgba(205,163,84,.18)');
+      atmosphere.addColorStop(.78, 'rgba(184,145,75,.08)');
+      atmosphere.addColorStop(1, 'rgba(184,145,75,0)');
       context.fillStyle = atmosphere;
       context.beginPath();
       context.arc(cx, cy, radius * 1.52, 0, Math.PI * 2);
@@ -235,7 +236,7 @@ function TechnologyPlanet() {
 function SectionHeading({ eyebrow, title, children, light = false }: { eyebrow: string; title: string; children?: ReactNode; light?: boolean }) {
   return (
     <div className={`reveal max-w-3xl ${light ? 'text-[#f3efe6]' : ''}`}>
-      <span className={`eyebrow ${light ? 'text-[#8c6a1d]' : ''}`}>{eyebrow}</span>
+      <span className={`eyebrow ${light ? 'text-[#A47F3F]' : ''}`}>{eyebrow}</span>
       <h2 className="display mt-5 text-4xl font-semibold leading-[.98] tracking-[-.06em] md:text-6xl">{title}</h2>
       {children && <p className={`mt-6 max-w-xl text-base leading-7 ${light ? 'text-[#a8a096]' : 'text-[#a8a096]'}`}>{children}</p>}
     </div>
@@ -248,6 +249,18 @@ const services = [
   { icon: Blocks, number: '03', title: 'Sistemas e Softwares', body: 'Plataformas personalizadas para organizar processos, integrar dados e escalar o seu negócio.' },
   { icon: PanelTop, number: '04', title: 'CRMs', body: 'Ferramentas de relacionamento para centralizar oportunidades, equipes, clientes e vendas.' },
   { icon: Gauge, number: '05', title: 'Automações', body: 'Fluxos inteligentes que reduzem tarefas manuais, conectam ferramentas e aumentam a produtividade.' },
+  { icon: Server, number: '06', title: 'ERP', body: 'Sistemas integrados para conectar finanças, vendas, estoque, operação e gestão em uma única visão.' },
+];
+
+const problems = [
+  ['01', 'Sistemas desconectados'],
+  ['02', 'Processos manuais'],
+  ['03', 'Planilhas paralelas'],
+  ['04', 'Retrabalho operacional'],
+  ['05', 'Dados espalhados'],
+  ['06', 'Decisões sem visibilidade'],
+  ['07', 'Ferramentas que não conversam'],
+  ['08', 'Crescimento sem estrutura'],
 ];
 
 const process = [
@@ -346,19 +359,19 @@ function App() {
           <a href="#inicio" onClick={closeMenu} className="group flex items-center gap-3" data-testid="link-logo">
             <BrandLockup compact />
           </a>
-          <nav className="hidden items-center gap-6 lg:flex" aria-label="Navegação principal">
-            {navItems.map(([label, href]) => <a key={href} href={href} className="nav-link text-[11px] font-medium tracking-[.05em]" data-testid={`link-nav-${label.toLowerCase()}`}>{label}</a>)}
+          <nav className="hidden items-center gap-7 lg:flex" aria-label="Navegação principal">
+            {navItems.map(([label, href]) => <a key={href} href={href} className="nav-link text-[14px] font-semibold tracking-[.02em]" data-testid={`link-nav-${label.toLowerCase()}`}>{label}</a>)}
           </nav>
           <a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="gold-button hidden px-5 py-3 text-[10px] uppercase tracking-[.12em] lg:inline-flex" data-testid="link-header-budget">
             Falar com a DK <ArrowRight size={14} />
           </a>
-          <button type="button" onClick={() => setMenuOpen(!menuOpen)} className="grid h-10 w-10 place-items-center border border-[#d4af37]/40 text-[#fff0a6] lg:hidden" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuOpen} data-testid="button-mobile-menu">
+          <button type="button" onClick={() => setMenuOpen(!menuOpen)} className="grid h-10 w-10 place-items-center border border-[#CDA354]/40 text-[#F2DBA9] lg:hidden" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menuOpen} data-testid="button-mobile-menu">
             {menuOpen ? <X size={19} /> : <Menu size={19} />}
           </button>
         </div>
-        <div className={`mobile-menu border-t border-[#d4af37]/20 lg:hidden ${menuOpen ? 'open' : ''}`}>
+        <div className={`mobile-menu border-t border-[#CDA354]/20 lg:hidden ${menuOpen ? 'open' : ''}`}>
           <nav className="container-wide grid gap-1 py-4" aria-label="Navegação mobile">
-            {navItems.map(([label, href]) => <a key={href} href={href} onClick={closeMenu} className="py-3 text-sm text-[#d8d0c3] transition-colors hover:text-[#fff0a6]" data-testid={`link-mobile-${label.toLowerCase()}`}>{label}</a>)}
+            {navItems.map(([label, href]) => <a key={href} href={href} onClick={closeMenu} className="py-3 text-sm text-[#d8d0c3] transition-colors hover:text-[#F2DBA9]" data-testid={`link-mobile-${label.toLowerCase()}`}>{label}</a>)}
             <a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" onClick={closeMenu} className="gold-button mt-3 px-5 py-3 text-[10px] uppercase tracking-[.12em]" data-testid="link-mobile-budget">Solicitar orçamento <ArrowRight size={14} /></a>
           </nav>
         </div>
@@ -372,15 +385,15 @@ function App() {
           <div className="container-wide relative z-10 grid items-center gap-8 pb-14 lg:grid-cols-[.92fr_1.08fr] lg:gap-0 lg:pb-0">
             <div className="reveal">
               <h1 className="hero-title display mt-8 max-w-2xl text-[clamp(3.4rem,7.6vw,7.25rem)] font-semibold leading-[.84] text-[#f3efe6]">
-                Desenvolvimento<br /><span className="gold-text">Digital Premium</span>
+                Sua operação cresceu.<br /><span className="gold-text">Sua tecnologia acompanhou?</span>
               </h1>
-              <p className="mt-8 max-w-lg text-lg leading-8 text-[#b8afa2] md:text-xl">Transformamos ideias em soluções digitais.</p>
-              <p className="mt-4 max-w-md text-sm leading-6 text-[#847c72]">Criamos sites, aplicativos, sistemas, CRMs, softwares e automações sob medida para empresas que desejam crescer.</p>
+              <p className="mt-8 max-w-lg text-lg leading-8 text-[#b8afa2] md:text-xl">Construímos sistemas, automações e infraestruturas digitais sob medida.</p>
+              <p className="mt-4 max-w-md text-sm leading-6 text-[#847c72]">Para empresas que precisam operar em outra escala, com tecnologia conectada ao negócio.</p>
               <div className="mt-9 flex flex-wrap gap-3">
-                <a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="gold-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-budget">Solicitar orçamento <ArrowRight size={15} /></a>
+                <a href={whatsappHref('Olá, gostaria de diagnosticar a operação da minha empresa com a DK CODE.')} target="_blank" rel="noreferrer" className="gold-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-budget">Diagnosticar minha operação <ArrowRight size={15} /></a>
                 <a href="#servicos" className="ghost-button px-6 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-hero-services">Conhecer serviços <ArrowDown size={15} /></a>
               </div>
-              <div className="mt-12 flex items-center gap-3 text-[10px] uppercase tracking-[.16em] text-[#6f685e]"><span className="h-px w-10 bg-[#8c6a1d]" /> Design + tecnologia + precisão</div>
+              <div className="mt-12 flex items-center gap-3 text-[10px] uppercase tracking-[.16em] text-[#6f685e]"><span className="h-px w-10 bg-[#A47F3F]" /> Design + tecnologia + precisão</div>
             </div>
             <div className="reveal delay-2 relative flex justify-center lg:justify-end">
               <div className="hero-visual hero-visual-desktop">
@@ -400,6 +413,22 @@ function App() {
           <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 text-[10px] uppercase tracking-[.18em] text-[#6f685e] md:flex">Explore o universo DK <ArrowDown size={13} /></div>
         </section>
 
+        <section id="problema" className="section-dark problem-section">
+          <div className="container-wide">
+            <div className="problem-layout">
+              <div className="reveal problem-intro">
+                <span className="eyebrow">O problema</span>
+                <h2 className="display problem-title">Sua empresa não precisa de mais uma ferramenta.<br /><em className="gold-text not-italic">Precisa de uma infraestrutura digital.</em></h2>
+                <p className="problem-lead">Empresas crescem em ritmo maior que sua tecnologia. O resultado é uma operação sustentada por remendos: sistemas isolados, planilhas críticas e decisões tomadas sem dados confiáveis.</p>
+                <p className="problem-resolution">A DK CODE conecta tudo isso em um ecossistema digital inteligente.</p>
+              </div>
+              <div className="problem-grid">
+                {problems.map(([number, label], index) => <article className={`problem-item reveal delay-${(index % 3) + 1}`} key={number}><span className="problem-number">{number}</span><h3>{label}</h3></article>)}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="section-paper relative py-20 md:py-28">
           <div className="container-wide">
             <div className="reveal grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
@@ -411,7 +440,7 @@ function App() {
                 ['01', 'Design Premium', 'Interfaces modernas, sofisticadas e pensadas para gerar uma experiência diferenciada.'],
                 ['02', 'Tecnologia', 'Soluções desenvolvidas com tecnologias modernas e arquitetura preparada para evolução.'],
                 ['03', 'Sob Medida', 'Cada projeto é desenvolvido de acordo com as necessidades específicas do negócio.'],
-              ].map(([number, title, body], index) => <article className={`reveal delay-${index + 1} border-b border-[#a58c62]/30 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0`} key={title}><span className="font-mono text-xs text-[#8c6a1d]">{number}</span><h3 className="display mt-8 text-2xl font-semibold">{title}</h3><p className="mt-4 text-sm leading-6 text-[#a8a096]">{body}</p></article>)}
+              ].map(([number, title, body], index) => <article className={`reveal delay-${index + 1} border-b border-[#a58c62]/30 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:border-r-0`} key={title}><span className="font-mono text-xs text-[#A47F3F]">{number}</span><h3 className="display mt-8 text-2xl font-semibold">{title}</h3><p className="mt-4 text-sm leading-6 text-[#a8a096]">{body}</p></article>)}
             </div>
           </div>
         </section>
@@ -430,7 +459,7 @@ function App() {
         </section>
 
         <section id="parceiros" className="section-paper relative overflow-hidden py-24 md:py-32">
-          <div className="absolute -right-24 top-10 h-80 w-80 rounded-full border border-[#b8860b]/10" />
+          <div className="absolute -right-24 top-10 h-80 w-80 rounded-full border border-[#B8914B]/10" />
           <div className="container-wide relative">
             <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
               <SectionHeading eyebrow="Nossos parceiros" title="Marcas que constroem com a DK CODE." />
@@ -443,14 +472,14 @@ function App() {
                 ['03', 'Logo do parceiro', 'Serviço desenvolvido'],
                 ['04', 'Logo do parceiro', 'Serviço desenvolvido'],
               ].map(([number, label, detail]) => <div className="partner-slot reveal" key={number} data-testid={`partner-slot-${number}`}>
-                <span className="font-mono text-[10px] tracking-[.15em] text-[#8c6a1d]">{number}</span>
+                <span className="font-mono text-[10px] tracking-[.15em] text-[#A47F3F]">{number}</span>
                 <div className="partner-slot-logo"><span>{label}</span></div>
-                <p className="mt-5 text-[10px] uppercase tracking-[.14em] text-[#8c6a1d]">{detail}</p>
+                <p className="mt-5 text-[10px] uppercase tracking-[.14em] text-[#A47F3F]">{detail}</p>
               </div>)}
             </div>
             <div className="mt-8 flex flex-col justify-between gap-5 border-t border-[#a58c62]/30 pt-6 text-sm text-[#a8a096] md:flex-row md:items-center">
               <p>Novas histórias e identidades serão adicionadas aqui com autorização.</p>
-              <a href={whatsappHref('Olá, gostaria de apresentar minha empresa como parceira da DK CODE.')} target="_blank" rel="noreferrer" className="project-link !text-[#8c6a1d]" data-testid="link-partner-whatsapp">Quero ser parceiro <ArrowRight size={14} /></a>
+              <a href={whatsappHref('Olá, gostaria de apresentar minha empresa como parceira da DK CODE.')} target="_blank" rel="noreferrer" className="project-link !text-[#A47F3F]" data-testid="link-partner-whatsapp">Quero ser parceiro <ArrowRight size={14} /></a>
             </div>
           </div>
         </section>
@@ -458,9 +487,9 @@ function App() {
         <section id="processo" className="section-dark py-24 md:py-32">
           <div className="container-wide">
             <SectionHeading eyebrow="Como funciona" title="Nosso processo">Um método claro do briefing à entrega.</SectionHeading>
-            <div className="relative mt-20 grid gap-10 md:grid-cols-6 md:gap-3">
-              <div className="timeline-line" />
-              {process.map(([number, title, body], index) => <article className={`reveal delay-${(index % 3) + 1} relative z-10 flex gap-5 md:block`} key={number}><div className="timeline-dot shrink-0">{number}</div><div className="pt-1 md:pt-8"><h3 className="display text-xl font-semibold text-[#f3efe6]">{title}</h3><p className="mt-3 max-w-[175px] text-sm leading-6 text-[#8c8479]">{body}</p></div></article>)}
+            <div className="process-timeline">
+              <div className="timeline-snake" aria-hidden="true" />
+              {process.map(([number, title, body], index) => <article className={`process-step process-step-${index % 2 === 0 ? 'left' : 'right'} reveal delay-${(index % 3) + 1}`} key={number}><div className="timeline-dot">{number}</div><div className="process-copy"><h3 className="display text-xl font-semibold text-[#f3efe6]">{title}</h3><p className="mt-2 max-w-[290px] text-sm leading-6 text-[#8c8479]">{body}</p></div></article>)}
             </div>
           </div>
         </section>
@@ -470,7 +499,7 @@ function App() {
             <div className="grid gap-14 lg:grid-cols-[.8fr_1.2fr]">
               <SectionHeading eyebrow="Por que a DK CODE" title="Diferenciais que aparecem no resultado." />
               <div className="grid grid-cols-2 gap-x-4 gap-y-0 border-t border-[#a58c62]/30 sm:grid-cols-3">
-                {differentiators.map(([Icon, label], index) => <div className={`reveal delay-${(index % 3) + 1} flex items-center gap-3 border-b border-[#a58c62]/30 py-5`} key={label as string}><Icon size={17} strokeWidth={1.4} className="text-[#8c6a1d]" /><span className="text-sm text-[#d8d0c3]">{label as string}</span></div>)}
+                {differentiators.map(([Icon, label], index) => <div className={`reveal delay-${(index % 3) + 1} flex items-center gap-3 border-b border-[#a58c62]/30 py-5`} key={label as string}><Icon size={17} strokeWidth={1.4} className="text-[#A47F3F]" /><span className="text-sm text-[#d8d0c3]">{label as string}</span></div>)}
               </div>
             </div>
           </div>
@@ -478,12 +507,12 @@ function App() {
 
         <section id="sobre" className="section-ink py-24 md:py-32">
           <div className="container-wide grid gap-16 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <div className="reveal relative min-h-[480px] overflow-hidden border border-[#d4af37]/20 bg-[#1a1510] p-8">
-              <div className="absolute inset-0 opacity-60" style={{ backgroundImage: 'linear-gradient(rgba(212,175,55,.11) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,.11) 1px, transparent 1px)', backgroundSize: '44px 44px' }} />
-              <div className="absolute left-1/2 top-1/2 grid h-52 w-52 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d4af37]/60 bg-[radial-gradient(circle,#6b5228,#16110c_67%)] shadow-[0_0_80px_rgba(212,175,55,.16)]"><img src={logoFull} alt="DK CODE" className="h-40 w-32 object-contain" /></div>
-              <div className="absolute left-8 top-8 font-mono text-[10px] uppercase tracking-[.17em] text-[#d4af37]">Sobre a DK CODE</div><div className="absolute bottom-8 right-8 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.17em] text-[#837b70]"><Sparkles size={13} className="text-[#d4af37]" /> Tecnologia com propósito</div>
+            <div className="reveal relative min-h-[480px] overflow-hidden border border-[#CDA354]/20 bg-[#1a1510] p-8">
+              <div className="absolute inset-0 opacity-60" style={{ backgroundImage: 'linear-gradient(rgba(205,163,84,.11) 1px, transparent 1px), linear-gradient(90deg, rgba(205,163,84,.11) 1px, transparent 1px)', backgroundSize: '44px 44px' }} />
+              <div className="absolute left-1/2 top-1/2 grid h-52 w-52 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#CDA354]/60 bg-[radial-gradient(circle,#6b5228,#16110c_67%)] shadow-[0_0_80px_rgba(205,163,84,.16)]"><img src={logoFull} alt="DK CODE" className="h-40 w-32 object-contain" /></div>
+              <div className="absolute left-8 top-8 font-mono text-[10px] uppercase tracking-[.17em] text-[#CDA354]">Sobre a DK CODE</div><div className="absolute bottom-8 right-8 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[.17em] text-[#837b70]"><Sparkles size={13} className="text-[#CDA354]" /> Tecnologia com propósito</div>
             </div>
-            <div><SectionHeading eyebrow="Sobre a DK CODE" title="Tecnologia com propósito">Somos um estúdio de desenvolvimento focado em criar experiências digitais que combinam design refinado, performance técnica e resultado comercial. Trabalhamos lado a lado com nossos clientes para entregar projetos únicos, escaláveis e feitos para converter.</SectionHeading><div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-8 border-t border-[#d4af37]/20 pt-8">{['Design premium', 'Performance', 'SEO', 'Suporte contínuo'].map((item) => <div className="flex items-center gap-3 text-sm text-[#c7beb0]" key={item}><Check size={15} className="text-[#d4af37]" /> {item}</div>)}</div></div>
+            <div><SectionHeading eyebrow="Sobre a DK CODE" title="Tecnologia com propósito">Somos um estúdio de desenvolvimento focado em criar experiências digitais que combinam design refinado, performance técnica e resultado comercial. Trabalhamos lado a lado com nossos clientes para entregar projetos únicos, escaláveis e feitos para converter.</SectionHeading><div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-8 border-t border-[#CDA354]/20 pt-8">{['Design premium', 'Performance', 'SEO', 'Suporte contínuo'].map((item) => <div className="flex items-center gap-3 text-sm text-[#c7beb0]" key={item}><Check size={15} className="text-[#CDA354]" /> {item}</div>)}</div></div>
           </div>
         </section>
 
@@ -492,18 +521,18 @@ function App() {
         </section>
 
         <section id="contato" className="section-paper relative overflow-hidden py-24 md:py-32">
-          <div className="absolute -right-20 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full border border-[#b8860b]/15" /><div className="absolute -right-8 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full border border-[#b8860b]/20" />
-          <div className="container-wide relative grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end"><div><SectionHeading eyebrow="Contato" title="Vamos conversar"><strong>Pronto para crescer?</strong><br />Conte-nos sobre o seu projeto. Respondemos em até 24 horas úteis com uma proposta personalizada.</SectionHeading><div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center"><a href={whatsappHref('Olá, gostaria de conversar sobre um projeto para a minha empresa.')} target="_blank" rel="noreferrer" className="gold-button px-7 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-contact-whatsapp">Falar pelo WhatsApp <MessageCircle size={15} /></a><a href="mailto:contato@dkcode.com.br" className="ghost-button border-[#8c6a1d]/40 !text-[#d8d0c3] px-6 py-4 text-xs uppercase tracking-[.1em] hover:!bg-[#8c6a1d]/5" data-testid="link-contact-email"><Mail size={15} /> contato@dkcode.com.br</a></div></div><div className="border-l border-[#a58c62]/30 pl-7"><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#8c6a1d]">Canal direto</p><a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="display mt-4 block text-3xl font-semibold text-[#f3efe6] transition-colors hover:text-[#8c6a1d]" data-testid="link-contact-direct">WhatsApp direto <MoveUpRight className="inline" size={20} /></a><p className="mt-3 text-sm leading-6 text-[#a8a096]">Sem formulário. Apenas uma conversa sobre o que você quer construir.</p></div></div>
+          <div className="absolute -right-20 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full border border-[#B8914B]/15" /><div className="absolute -right-8 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full border border-[#B8914B]/20" />
+          <div className="container-wide relative grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end"><div><SectionHeading eyebrow="Contato" title="Vamos conversar"><strong>Pronto para crescer?</strong><br />Conte-nos sobre o seu projeto. Respondemos em até 24 horas úteis com uma proposta personalizada.</SectionHeading><div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center"><a href={whatsappHref('Olá, gostaria de conversar sobre um projeto para a minha empresa.')} target="_blank" rel="noreferrer" className="gold-button px-7 py-4 text-xs uppercase tracking-[.1em]" data-testid="link-contact-whatsapp">Falar pelo WhatsApp <MessageCircle size={15} /></a><a href="mailto:contato@dkcode.com.br" className="ghost-button border-[#A47F3F]/40 !text-[#d8d0c3] px-6 py-4 text-xs uppercase tracking-[.1em] hover:!bg-[#A47F3F]/5" data-testid="link-contact-email"><Mail size={15} /> contato@dkcode.com.br</a></div></div><div className="border-l border-[#a58c62]/30 pl-7"><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#A47F3F]">Canal direto</p><a href={whatsappHref('Olá, gostaria de solicitar um orçamento para o meu projeto.')} target="_blank" rel="noreferrer" className="display mt-4 block text-3xl font-semibold text-[#f3efe6] transition-colors hover:text-[#A47F3F]" data-testid="link-contact-direct">WhatsApp direto <MoveUpRight className="inline" size={20} /></a><p className="mt-3 text-sm leading-6 text-[#a8a096]">Sem formulário. Apenas uma conversa sobre o que você quer construir.</p></div></div>
         </section>
       </main>
 
-      <footer className="border-t border-[#d4af37]/18 bg-[#100e0b] py-12">
+      <footer className="border-t border-[#CDA354]/18 bg-[#100e0b] py-12">
         <div className="container-wide grid gap-12 md:grid-cols-[1.4fr_.7fr_.8fr]">
-          <div><a href="#inicio" className="inline-flex" data-testid="link-footer-logo"><BrandLockup /></a><p className="mt-6 max-w-xs text-sm leading-6 text-[#847c72]">Desenvolvimento web premium. Sites, Landing Pages e Sistemas sob medida.</p><div className="mt-7 flex gap-3"><a href="https://www.instagram.com/dk_codeoficial?stkn=NDc1cjd5aWhmeDJ3" target="_blank" rel="noreferrer" aria-label="Instagram da DK CODE" className="text-[#847c72] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-instagram"><Instagram size={17} /></a></div></div>
-          <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Navegação</p><div className="mt-5 grid gap-3">{[['Início', '#inicio'], ['Serviços', '#servicos'], ['Contato', '#contato']].map(([label, href]) => <a href={href} key={href} className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid={`link-footer-${label.toLowerCase()}`}>{label}</a>)}</div></div>
-          <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#d4af37]">Contato</p><div className="mt-5 grid gap-3"><a href="mailto:contato@dkcode.com.br" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-email">contato@dkcode.com.br</a><a href={whatsappHref('Olá, gostaria de falar com a DK CODE.')} target="_blank" rel="noreferrer" className="text-sm text-[#9c9387] transition-colors hover:text-[#fff0a6]" data-testid="link-footer-whatsapp">WhatsApp</a></div></div>
+          <div><a href="#inicio" className="inline-flex" data-testid="link-footer-logo"><BrandLockup /></a><p className="mt-6 max-w-xs text-sm leading-6 text-[#847c72]">Infraestrutura digital premium. Sistemas, automações e softwares sob medida.</p><div className="mt-7 flex gap-3"><a href="https://www.instagram.com/dk_codeoficial?stkn=NDc1cjd5aWhmeDJ3" target="_blank" rel="noreferrer" aria-label="Instagram da DK CODE" className="text-[#847c72] transition-colors hover:text-[#F2DBA9]" data-testid="link-footer-instagram"><Instagram size={17} /></a></div></div>
+          <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#CDA354]">Navegação</p><div className="mt-5 grid gap-3">{[['Início', '#inicio'], ['Serviços', '#servicos'], ['Contato', '#contato']].map(([label, href]) => <a href={href} key={href} className="text-sm text-[#9c9387] transition-colors hover:text-[#F2DBA9]" data-testid={`link-footer-${label.toLowerCase()}`}>{label}</a>)}</div></div>
+          <div><p className="font-mono text-[10px] uppercase tracking-[.15em] text-[#CDA354]">Contato</p><div className="mt-5 grid gap-3"><a href="mailto:contato@dkcode.com.br" className="text-sm text-[#9c9387] transition-colors hover:text-[#F2DBA9]" data-testid="link-footer-email">contato@dkcode.com.br</a><a href={whatsappHref('Olá, gostaria de falar com a DK CODE.')} target="_blank" rel="noreferrer" className="text-sm text-[#9c9387] transition-colors hover:text-[#F2DBA9]" data-testid="link-footer-whatsapp">WhatsApp</a></div></div>
         </div>
-        <div className="container-wide mt-12 flex flex-col justify-between gap-3 border-t border-[#d4af37]/15 pt-6 text-[10px] uppercase tracking-[.13em] text-[#6f685e] md:flex-row"><span>© 2026 DK CODE. Todos os direitos reservados.</span></div>
+        <div className="container-wide mt-12 flex flex-col justify-between gap-3 border-t border-[#CDA354]/15 pt-6 text-[10px] uppercase tracking-[.13em] text-[#6f685e] md:flex-row"><span>© 2026 DK CODE. Todos os direitos reservados.</span></div>
       </footer>
     </div>
   );
