@@ -122,12 +122,12 @@
 .brand-lockup-compact img { width: 54px; height: 66px; }
 .partner-slot { min-height: 214px; border: 1px solid rgba(165,140,98,.32); padding: 20px; transition: border-color .3s ease, transform .3s ease, background .3s ease; }
 .partner-slot:hover { border-color: rgba(140,106,29,.72); transform: translateY(-4px); background: rgba(184,145,75,.045); }
-.partner-slot-light { min-height: 0; aspect-ratio: 3.1 / 1; border-radius: 999px; background: #fff; border-color: rgba(205,163,84,.45); padding: 16px 30px; }
+.partner-slot-light { width: min(100%, 370px); min-height: 0; aspect-ratio: 1; justify-self: center; border-radius: 50%; background: #fff; border-color: rgba(205,163,84,.45); padding: 38px; }
 .partner-slot-light:hover { background: #fff; border-color: #CDA354; }
 .partner-slot-logo { display: grid; min-height: 92px; place-items: center; border-bottom: 1px solid rgba(165,140,98,.22); color: rgba(95,85,73,.52); font: 10px var(--app-font-mono); letter-spacing: .14em; text-transform: uppercase; }
 .partner-slot-light .partner-slot-logo { border-bottom: 0; }
 .partner-slot-logo-image { min-height: 0; height: 100%; padding: 8px 4px; }
-.partner-slot-logo-image img { display: block; width: min(100%, 360px); height: auto; max-height: 96px; object-fit: contain; }
+.partner-slot-logo-image img { display: block; width: 84%; height: auto; max-height: 112px; object-fit: contain; }
 .section-dark { background: #100e0b; }
 .section-ink { background: #100e0b; }
 .section-paper { background: #100e0b; color: #f3efe6; }
