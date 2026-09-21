@@ -541,18 +541,12 @@ function App() {
               <SectionHeading eyebrow="Nossos parceiros" title="Marcas que constroem com a DK CODE." />
               <p className="max-w-xl text-base leading-8 text-[#a8a096]">Este espaço será dedicado aos parceiros que autorizarem a apresentação de suas marcas e dos projetos desenvolvidos em conjunto.</p>
             </div>
-            <div className="mt-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-16 grid gap-4 sm:grid-cols-2">
               {[
-                ['01', 'Protegê', 'Parceiro DK CODE'],
-                ['02', 'Logo do parceiro', 'Serviço desenvolvido'],
-                ['03', 'Logo do parceiro', 'Serviço desenvolvido'],
-                ['04', 'Logo do parceiro', 'Serviço desenvolvido'],
-              ].map(([number, label, detail], index) => <div className="partner-slot reveal" key={number} data-testid={`partner-slot-${number}`}>
-                <span className="font-mono text-[10px] tracking-[.15em] text-[#A47F3F]">{number}</span>
-                <div className={`partner-slot-logo${index === 0 ? ' partner-slot-logo-image' : ''}`}>
-                  {index === 0 ? <img src="/partner-protegeo.png" alt="Protegê — Protegendo seus bens" /> : <span>{label}</span>}
-                </div>
-                <p className="mt-5 text-[10px] uppercase tracking-[.14em] text-[#A47F3F]">{detail}</p>
+                ['/partner-protegeo.png', 'Protegê — Protegendo seus bens'],
+                ['/partner-motook.png', 'Motook'],
+              ].map(([logo, alt], index) => <div className="partner-slot partner-slot-light reveal" key={logo} data-testid={`partner-slot-${index + 1}`}>
+                <div className="partner-slot-logo partner-slot-logo-image"><img src={logo} alt={alt} /></div>
               </div>)}
             </div>
             <div className="mt-8 flex flex-col justify-between gap-5 border-t border-[#a58c62]/30 pt-6 text-sm text-[#a8a096] md:flex-row md:items-center">
