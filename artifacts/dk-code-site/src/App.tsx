@@ -334,8 +334,6 @@ function loadMetaPixel() {
 
 function CookieConsent() {
   const [choice, setChoice] = useState<CookieChoice | null>(null);
-  const [preferencesOpen, setPreferencesOpen] = useState(false);
-  const [marketingAllowed, setMarketingAllowed] = useState(false);
 
   useEffect(() => {
     const saved = getSavedCookieChoice();
@@ -346,33 +344,20 @@ function CookieConsent() {
   const saveChoice = (next: CookieChoice) => {
     saveCookieChoice(next);
     setChoice(next);
-    setPreferencesOpen(false);
     if (next === 'accepted') loadMetaPixel();
   };
 
-  const savePreferences = () => saveChoice(marketingAllowed ? 'accepted' : 'rejected');
-
-  if (choice && !preferencesOpen) {
-    return <button type="button" className="cookie-settings-trigger" onClick={() => setPreferencesOpen(true)}>Preferências de cookies</button>;
-  }
+  if (choice) return null;
 
   return (
     <div className="cookie-consent" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-description">
       <div className="cookie-consent-inner">
         <div className="cookie-copy">
           <span className="cookie-eyebrow">Sua privacidade</span>
-          <h2 id="cookie-title">Cookies e rastreamento</h2>
-          <p id="cookie-description">Usamos cookies essenciais para o site funcionar e, com sua autorização, o Meta Pixel para medir campanhas e melhorar nossa comunicação. Você pode alterar sua escolha a qualquer momento.</p>
+          <h2 id="cookie-title">Cookies</h2>
+          <p id="cookie-description">Usamos cookies para melhorar sua experiência de navegação e entender como o site é utilizado. Você pode aceitar ou recusar.</p>
         </div>
-        {preferencesOpen ? (
-          <div className="cookie-preferences" aria-label="Preferências de cookies">
-            <div className="cookie-preference-row"><div><strong>Cookies essenciais</strong><span>Necessários para o funcionamento básico.</span></div><span className="cookie-status">Sempre ativos</span></div>
-            <label className="cookie-preference-row cookie-toggle-row"><div><strong>Marketing e mensuração</strong><span>Meta Pixel para PageView, campanhas e remarketing.</span></div><input type="checkbox" checked={marketingAllowed} onChange={(event) => setMarketingAllowed(event.target.checked)} /><span className="cookie-toggle" aria-hidden="true" /></label>
-            <div className="cookie-actions"><button type="button" className="cookie-button cookie-button-muted" onClick={() => saveChoice('rejected')}>Recusar não essenciais</button><button type="button" className="cookie-button cookie-button-gold" onClick={savePreferences}>Salvar preferências</button></div>
-          </div>
-        ) : (
-          <div className="cookie-actions"><button type="button" className="cookie-button cookie-button-muted" onClick={() => saveChoice('rejected')}>Recusar</button><button type="button" className="cookie-button cookie-button-outline" onClick={() => setPreferencesOpen(true)}>Configurar</button><button type="button" className="cookie-button cookie-button-gold" onClick={() => saveChoice('accepted')}>Aceitar todos</button></div>
-        )}
+        <div className="cookie-actions"><button type="button" className="cookie-button cookie-button-muted" onClick={() => saveChoice('rejected')}>Recusar cookies</button><button type="button" className="cookie-button cookie-button-gold" onClick={() => saveChoice('accepted')}>Aceitar cookies</button></div>
       </div>
     </div>
   );
