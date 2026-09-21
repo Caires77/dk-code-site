@@ -122,13 +122,12 @@
 .brand-lockup-compact img { width: 54px; height: 66px; }
 .partner-slot { min-height: 214px; border: 1px solid rgba(165,140,98,.32); padding: 20px; transition: border-color .3s ease, transform .3s ease, background .3s ease; }
 .partner-slot:hover { border-color: rgba(140,106,29,.72); transform: translateY(-4px); background: rgba(184,145,75,.045); }
-.partner-slot-light { width: min(100%, 290px); min-height: 0; aspect-ratio: 1; justify-self: center; border-radius: 50%; background: #fff; border-color: rgba(205,163,84,.45); padding: 26px; }
+.partner-slot-light { display: grid; place-items: center; width: min(100%, 290px); min-height: 0; aspect-ratio: 1; justify-self: center; border-radius: 50%; background: #fff; border-color: rgba(205,163,84,.45); padding: 26px; }
 .partner-slot-light:hover { background: #fff; border-color: #CDA354; }
 .partner-slot-logo { display: grid; min-height: 92px; place-items: center; border-bottom: 1px solid rgba(165,140,98,.22); color: rgba(95,85,73,.52); font: 10px var(--app-font-mono); letter-spacing: .14em; text-transform: uppercase; }
-.partner-slot-light .partner-slot-logo { border-bottom: 0; }
-.partner-slot-logo-image { min-height: 0; height: 100%; padding: 8px 4px; }
-.partner-slot-logo-image img { display: block; width: 82%; height: auto; max-height: 88px; margin: auto; object-fit: contain; object-position: center; transform: translateY(-8px); }
-.partner-slot-logo-image img[src*="partner-motook"] { transform: translateY(-10px); }
+.partner-slot-light .partner-slot-logo { width: 100%; height: 100%; min-height: 0; border-bottom: 0; }
+.partner-slot-logo-image { display: grid; width: 100%; min-height: 0; height: 100%; padding: 0; place-items: center; }
+.partner-slot-logo-image img { display: block; width: 82%; height: auto; max-height: 88px; margin: 0; object-fit: contain; object-position: center; transform: none; }
 .section-dark { background: #100e0b; }
 .section-ink { background: #100e0b; }
 .section-paper { background: #100e0b; color: #f3efe6; }
@@ -247,8 +246,7 @@
   .process-step-left .timeline-dot, .process-step-right .timeline-dot { grid-column: 1; grid-row: 1; justify-self: start; margin: 0; }
   .process-step-left .process-copy, .process-step-right .process-copy { grid-column: 2; grid-row: 1; padding: 4px 0 0 24px; text-align: left; }
   .partner-slot-light { width: min(100%, 260px); padding: 22px; }
-  .partner-slot-light .partner-slot-logo-image img { position: relative; top: -24px; transform: none; }
-  .partner-slot-light .partner-slot-logo-image img[src*="partner-motook"] { top: -24px; }
+  .partner-slot-logo-image img { width: 82%; max-height: 76px; }
 }
 @keyframes hero-breathe { 0%, 100% { opacity: .48; transform: scale(.95); } 50% { opacity: .86; transform: scale(1.04); } }
 @keyframes mobile-star-pulse { 0%, 100% { opacity: .45; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.35); } }
