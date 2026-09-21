@@ -247,8 +247,8 @@
   .process-step-left .timeline-dot, .process-step-right .timeline-dot { grid-column: 1; grid-row: 1; justify-self: start; margin: 0; }
   .process-step-left .process-copy, .process-step-right .process-copy { grid-column: 2; grid-row: 1; padding: 4px 0 0 24px; text-align: left; }
   .partner-slot-light { width: min(100%, 260px); padding: 22px; }
-  .partner-slot-logo-image img { transform: translateY(-12px); }
-  .partner-slot-logo-image img[src*="partner-motook"] { transform: translateY(-12px); }
+  .partner-slot-light .partner-slot-logo-image img { position: relative; top: -24px; transform: none; }
+  .partner-slot-light .partner-slot-logo-image img[src*="partner-motook"] { top: -24px; }
 }
 @keyframes hero-breathe { 0%, 100% { opacity: .48; transform: scale(.95); } 50% { opacity: .86; transform: scale(1.04); } }
 @keyframes mobile-star-pulse { 0%, 100% { opacity: .45; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.35); } }
