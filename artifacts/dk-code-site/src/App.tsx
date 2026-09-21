@@ -543,13 +543,15 @@ function App() {
             </div>
             <div className="mt-16 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                ['01', 'Logo do parceiro', 'Serviço desenvolvido'],
+                ['01', 'Protegê', 'Parceiro DK CODE'],
                 ['02', 'Logo do parceiro', 'Serviço desenvolvido'],
                 ['03', 'Logo do parceiro', 'Serviço desenvolvido'],
                 ['04', 'Logo do parceiro', 'Serviço desenvolvido'],
-              ].map(([number, label, detail]) => <div className="partner-slot reveal" key={number} data-testid={`partner-slot-${number}`}>
+              ].map(([number, label, detail], index) => <div className="partner-slot reveal" key={number} data-testid={`partner-slot-${number}`}>
                 <span className="font-mono text-[10px] tracking-[.15em] text-[#A47F3F]">{number}</span>
-                <div className="partner-slot-logo"><span>{label}</span></div>
+                <div className={`partner-slot-logo${index === 0 ? ' partner-slot-logo-image' : ''}`}>
+                  {index === 0 ? <img src="/partner-protegeo.png" alt="Protegê — Protegendo seus bens" /> : <span>{label}</span>}
+                </div>
                 <p className="mt-5 text-[10px] uppercase tracking-[.14em] text-[#A47F3F]">{detail}</p>
               </div>)}
             </div>

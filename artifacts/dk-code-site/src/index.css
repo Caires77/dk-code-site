@@ -123,6 +123,8 @@
 .partner-slot { min-height: 214px; border: 1px solid rgba(165,140,98,.32); padding: 20px; transition: border-color .3s ease, transform .3s ease, background .3s ease; }
 .partner-slot:hover { border-color: rgba(140,106,29,.72); transform: translateY(-4px); background: rgba(184,145,75,.045); }
 .partner-slot-logo { display: grid; min-height: 92px; place-items: center; border-bottom: 1px solid rgba(165,140,98,.22); color: rgba(95,85,73,.52); font: 10px var(--app-font-mono); letter-spacing: .14em; text-transform: uppercase; }
+.partner-slot-logo-image { padding: 12px 4px; }
+.partner-slot-logo-image img { display: block; width: min(100%, 270px); max-height: 78px; object-fit: contain; }
 .section-dark { background: #100e0b; }
 .section-ink { background: #100e0b; }
 .section-paper { background: #100e0b; color: #f3efe6; }
