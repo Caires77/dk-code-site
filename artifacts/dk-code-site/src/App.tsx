@@ -29,6 +29,14 @@ import { type ReactNode } from 'react';
 import './index.css';
 import logoFull from './assets/dk-code-logo.png';
 
+declare global {
+  type MetaPixelFunction = ((...args: unknown[]) => void) & { queue?: unknown[][]; loaded?: boolean; version?: string };
+  interface Window {
+    fbq?: MetaPixelFunction;
+    _fbq?: MetaPixelFunction;
+  }
+}
+
 const whatsappNumber = '5511963079086';
 const whatsappHref = (message: string) =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -286,6 +294,90 @@ const faqs = [
   ['Posso solicitar alterações durante o projeto?', 'Claro. Cada etapa possui rodadas de ajustes previstas para garantir que o resultado esteja perfeito.'],
 ];
 
+const cookieConsentKey = 'dk-code-cookie-consent';
+type CookieChoice = 'accepted' | 'rejected';
+
+function getSavedCookieChoice(): CookieChoice | null {
+  const cookie = document.cookie.split('; ').find((item) => item.startsWith(`${cookieConsentKey}=`));
+  const value = cookie?.split('=')[1] as CookieChoice | undefined;
+  if (value === 'accepted' || value === 'rejected') return value;
+  return window.localStorage.getItem(cookieConsentKey) as CookieChoice | null;
+}
+
+function saveCookieChoice(choice: CookieChoice) {
+  document.cookie = `${cookieConsentKey}=${choice}; Max-Age=31536000; Path=/; SameSite=Lax`;
+  window.localStorage.setItem(cookieConsentKey, choice);
+}
+
+function loadMetaPixel() {
+  if (typeof window === 'undefined' || window.fbq) return;
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+  document.head.appendChild(script);
+  const fbq = ((...args: unknown[]) => { fbq.queue?.push(args); }) as MetaPixelFunction;
+  fbq.queue = [];
+  fbq.loaded = true;
+  fbq.version = '2.0';
+  window.fbq = fbq;
+  window._fbq = fbq;
+  window.fbq('init', '2220679542045133');
+  window.fbq('track', 'PageView');
+  const fallback = document.createElement('img');
+  fallback.height = 1;
+  fallback.width = 1;
+  fallback.alt = '';
+  fallback.style.display = 'none';
+  fallback.src = 'https://www.facebook.com/tr?id=2220679542045133&ev=PageView&noscript=1';
+  document.body.appendChild(fallback);
+}
+
+function CookieConsent() {
+  const [choice, setChoice] = useState<CookieChoice | null>(null);
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [marketingAllowed, setMarketingAllowed] = useState(false);
+
+  useEffect(() => {
+    const saved = getSavedCookieChoice();
+    setChoice(saved);
+    if (saved === 'accepted') loadMetaPixel();
+  }, []);
+
+  const saveChoice = (next: CookieChoice) => {
+    saveCookieChoice(next);
+    setChoice(next);
+    setPreferencesOpen(false);
+    if (next === 'accepted') loadMetaPixel();
+  };
+
+  const savePreferences = () => saveChoice(marketingAllowed ? 'accepted' : 'rejected');
+
+  if (choice && !preferencesOpen) {
+    return <button type="button" className="cookie-settings-trigger" onClick={() => setPreferencesOpen(true)}>Preferências de cookies</button>;
+  }
+
+  return (
+    <div className="cookie-consent" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-description">
+      <div className="cookie-consent-inner">
+        <div className="cookie-copy">
+          <span className="cookie-eyebrow">Sua privacidade</span>
+          <h2 id="cookie-title">Cookies e rastreamento</h2>
+          <p id="cookie-description">Usamos cookies essenciais para o site funcionar e, com sua autorização, o Meta Pixel para medir campanhas e melhorar nossa comunicação. Você pode alterar sua escolha a qualquer momento.</p>
+        </div>
+        {preferencesOpen ? (
+          <div className="cookie-preferences" aria-label="Preferências de cookies">
+            <div className="cookie-preference-row"><div><strong>Cookies essenciais</strong><span>Necessários para o funcionamento básico.</span></div><span className="cookie-status">Sempre ativos</span></div>
+            <label className="cookie-preference-row cookie-toggle-row"><div><strong>Marketing e mensuração</strong><span>Meta Pixel para PageView, campanhas e remarketing.</span></div><input type="checkbox" checked={marketingAllowed} onChange={(event) => setMarketingAllowed(event.target.checked)} /><span className="cookie-toggle" aria-hidden="true" /></label>
+            <div className="cookie-actions"><button type="button" className="cookie-button cookie-button-muted" onClick={() => saveChoice('rejected')}>Recusar não essenciais</button><button type="button" className="cookie-button cookie-button-gold" onClick={savePreferences}>Salvar preferências</button></div>
+          </div>
+        ) : (
+          <div className="cookie-actions"><button type="button" className="cookie-button cookie-button-muted" onClick={() => saveChoice('rejected')}>Recusar</button><button type="button" className="cookie-button cookie-button-outline" onClick={() => setPreferencesOpen(true)}>Configurar</button><button type="button" className="cookie-button cookie-button-gold" onClick={() => saveChoice('accepted')}>Aceitar todos</button></div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -534,6 +626,7 @@ function App() {
         </div>
         <div className="container-wide mt-12 flex flex-col justify-between gap-3 border-t border-[#CDA354]/15 pt-6 text-[10px] uppercase tracking-[.13em] text-[#6f685e] md:flex-row"><span>© 2026 DK CODE. Todos os direitos reservados.</span></div>
       </footer>
+      <CookieConsent />
     </div>
   );
 }
