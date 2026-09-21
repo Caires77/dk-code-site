@@ -33,6 +33,8 @@ declare global {
   interface Window {
     fbq?: MetaPixelFunction;
     _fbq?: MetaPixelFunction;
+    dataLayer?: unknown[][];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -331,19 +333,36 @@ function loadMetaPixel() {
   document.body.appendChild(fallback);
 }
 
+function loadGoogleAnalytics() {
+  if (typeof window === 'undefined' || window.gtag) return;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = (...args: unknown[]) => { window.dataLayer?.push(args); };
+  window.gtag('js', new Date());
+  window.gtag('config', 'G-D1QP8MKW1D');
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-D1QP8MKW1D';
+  document.head.appendChild(script);
+}
+
+function loadAnalytics() {
+  loadMetaPixel();
+  loadGoogleAnalytics();
+}
+
 function CookieConsent() {
   const [choice, setChoice] = useState<CookieChoice | null>(null);
 
   useEffect(() => {
     const saved = getSavedCookieChoice();
     setChoice(saved);
-    if (saved === 'accepted') loadMetaPixel();
+    if (saved === 'accepted') loadAnalytics();
   }, []);
 
   const saveChoice = (next: CookieChoice) => {
     saveCookieChoice(next);
     setChoice(next);
-    if (next === 'accepted') loadMetaPixel();
+    if (next === 'accepted') loadAnalytics();
   };
 
   if (choice) return null;
