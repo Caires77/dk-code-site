@@ -127,8 +127,8 @@
 .partner-slot-logo { display: grid; min-height: 92px; place-items: center; border-bottom: 1px solid rgba(165,140,98,.22); color: rgba(95,85,73,.52); font: 10px var(--app-font-mono); letter-spacing: .14em; text-transform: uppercase; }
 .partner-slot-light .partner-slot-logo { border-bottom: 0; }
 .partner-slot-logo-image { min-height: 0; height: 100%; padding: 8px 4px; }
-.partner-slot-logo-image img { display: block; width: 82%; height: auto; max-height: 88px; margin: auto; object-fit: contain; object-position: center; }
-.partner-slot-logo-image img[src*="partner-motook"] { transform: translateY(-4px); }
+.partner-slot-logo-image img { display: block; width: 82%; height: auto; max-height: 88px; margin: auto; object-fit: contain; object-position: center; transform: translateY(-8px); }
+.partner-slot-logo-image img[src*="partner-motook"] { transform: translateY(-10px); }
 .section-dark { background: #100e0b; }
 .section-ink { background: #100e0b; }
 .section-paper { background: #100e0b; color: #f3efe6; }
