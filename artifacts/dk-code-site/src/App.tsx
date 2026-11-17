@@ -560,15 +560,15 @@ function App() {
               <SectionHeading eyebrow="Nossos parceiros" title="Marcas que constroem com a DK CODE." />
               <p className="max-w-xl text-base leading-8 text-[#a8a096]">Este espaço será dedicado aos parceiros que autorizarem a apresentação de suas marcas e dos projetos desenvolvidos em conjunto.</p>
             </div>
-            <div className="mt-16 grid gap-4 sm:grid-cols-2">
+            <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 ['/partner-protegeo.png', 'Protegê — Protegendo seus bens'],
                 ['/partner-motook.png', 'Motook'],
                 ['/partner-nsu.png', 'North Star University — NSU'],
                 ['/partner-tvila.png', 'TVILA Sports'],
                 ["/partner-wj-gas.png", "WJ's Gás — Revendedor Autorizado Liquigás"],
-              ].map(([logo, alt], index) => <div className="partner-slot partner-slot-light reveal" key={logo} data-testid={`partner-slot-${index + 1}`}>
-                <div className="partner-slot-logo partner-slot-logo-image"><img src={logo} alt={alt} /></div>
+              ].map(([logo, alt], index) => <div className={`partner-slot partner-slot-light ${index >= 2 ? 'partner-slot-new' : ''} reveal`} key={logo} data-testid={`partner-slot-${index + 1}`}>
+                <div className="partner-slot-logo partner-slot-logo-image"><img className={index >= 2 ? 'partner-slot-new-image' : ''} src={logo} alt={alt} /></div>
               </div>)}
             </div>
             <div className="mt-8 flex flex-col justify-between gap-5 border-t border-[#a58c62]/30 pt-6 text-sm text-[#a8a096] md:flex-row md:items-center">
