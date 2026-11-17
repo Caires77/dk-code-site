@@ -564,6 +564,9 @@ function App() {
               {[
                 ['/partner-protegeo.png', 'Protegê — Protegendo seus bens'],
                 ['/partner-motook.png', 'Motook'],
+                ['/partner-nsu.png', 'North Star University — NSU'],
+                ['/partner-tvila.png', 'TVILA Sports'],
+                ["/partner-wj-gas.png", "WJ's Gás — Revendedor Autorizado Liquigás"],
               ].map(([logo, alt], index) => <div className="partner-slot partner-slot-light reveal" key={logo} data-testid={`partner-slot-${index + 1}`}>
                 <div className="partner-slot-logo partner-slot-logo-image"><img src={logo} alt={alt} /></div>
               </div>)}
