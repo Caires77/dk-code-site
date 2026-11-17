@@ -129,6 +129,8 @@
 .partner-slot-logo-image { display: grid; width: 100%; min-height: 0; height: 100%; padding: 0; place-items: center; }
 .partner-slot-logo-image img { display: block; width: 82%; height: auto; max-height: 100px; margin: 0; object-fit: contain; object-position: center; transform: none; }
 .partner-slot-new .partner-slot-logo-image img { width: 94%; max-height: 142px; }
+.partner-slot-nsu .partner-slot-logo-image img { max-height: 164px; }
+.partner-slot-tvila .partner-slot-logo-image img { width: 100%; max-height: 150px; }
 .section-dark { background: #100e0b; }
 .section-ink { background: #100e0b; }
 .section-paper { background: #100e0b; color: #f3efe6; }
@@ -249,6 +251,8 @@
   .partner-slot-light { padding: 22px; }
   .partner-slot-logo-image img { width: 82%; max-height: 86px; }
   .partner-slot-new .partner-slot-logo-image img { width: 94%; max-height: 120px; }
+  .partner-slot-nsu .partner-slot-logo-image img { max-height: 138px; }
+  .partner-slot-tvila .partner-slot-logo-image img { width: 100%; max-height: 132px; }
 }
 @keyframes hero-breathe { 0%, 100% { opacity: .48; transform: scale(.95); } 50% { opacity: .86; transform: scale(1.04); } }
 @keyframes mobile-star-pulse { 0%, 100% { opacity: .45; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.35); } }

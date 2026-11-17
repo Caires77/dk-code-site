@@ -567,7 +567,7 @@ function App() {
                 ['/partner-nsu.png', 'North Star University — NSU'],
                 ['/partner-tvila.png', 'TVILA Sports'],
                 ["/partner-wj-gas.png", "WJ's Gás — Revendedor Autorizado Liquigás"],
-              ].map(([logo, alt], index) => <div className={`partner-slot partner-slot-light ${index >= 2 ? 'partner-slot-new' : ''} reveal`} key={logo} data-testid={`partner-slot-${index + 1}`}>
+              ].map(([logo, alt], index) => <div className={`partner-slot partner-slot-light ${index >= 2 ? 'partner-slot-new' : ''} ${index === 2 ? 'partner-slot-nsu' : ''} ${index === 3 ? 'partner-slot-tvila' : ''} reveal`} key={logo} data-testid={`partner-slot-${index + 1}`}>
                 <div className="partner-slot-logo partner-slot-logo-image"><img className={index >= 2 ? 'partner-slot-new-image' : ''} src={logo} alt={alt} /></div>
               </div>)}
             </div>
